@@ -1,7 +1,7 @@
 "use client";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import dynamic from "next/dynamic";
-import { motion, AnimatePresence, useScroll, useTransform } from "framer-motion";
+import { motion, AnimatePresence, useScroll, useTransform, useSpring } from "framer-motion";
 
 const CricketBall3D = dynamic(() => import("./CricketBall3D"), { ssr: false });
 
@@ -28,11 +28,39 @@ const MoonIcon = () => (
 export default function HeroSection() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [isDark, setIsDark] = useState(true);
+  const [scrolled, setScrolled] = useState(false);
 
   // Scroll animation: ball moves down and fades out
   const { scrollY } = useScroll();
   const ballY = useTransform(scrollY, [0, 800], [0, 400]);
   const ballOpacity = useTransform(scrollY, [0, 600, 1000], [1, 1, 0]);
+
+  // Nav becomes glassy after scrolling 40px
+  useEffect(() => {
+    const unsub = scrollY.on("change", (v) => setScrolled(v > 40));
+    return unsub;
+  }, [scrollY]);
+
+  // 3D tilt on mouse move
+  const navRef = useRef<HTMLElement>(null);
+  const rawX = useRef(0);
+  const rawY = useRef(0);
+  const rotateX = useSpring(0, { stiffness: 200, damping: 28 });
+  const rotateY = useSpring(0, { stiffness: 200, damping: 28 });
+
+  const handleNavMouse = (e: React.MouseEvent) => {
+    if (!navRef.current) return;
+    const r = navRef.current.getBoundingClientRect();
+    rawX.current = ((e.clientX - r.left) / r.width - 0.5) * 6;
+    rawY.current = ((e.clientY - r.top) / r.height - 0.5) * -4;
+    rotateY.set(rawX.current);
+    rotateX.set(rawY.current);
+  };
+
+  const handleNavLeave = () => {
+    rotateX.set(0);
+    rotateY.set(0);
+  };
 
   /* Hook to apply 'dark' class to html element globally */
   useEffect(() => {
@@ -55,79 +83,96 @@ export default function HeroSection() {
 
   return (
     <section className="hero-section">
-      {/* NAV */}
-      <motion.nav 
-        className="hero-nav"
-        initial={{ y: -20, opacity: 0 }}
+      {/* ── DESKTOP NAV (3D floating pill) ── */}
+      <motion.nav
+        ref={navRef as React.RefObject<HTMLElement>}
+        className={`hero-nav desktop-nav ${scrolled ? "nav-scrolled" : ""}`}
+        initial={{ y: -32, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
-        transition={{ duration: 0.6, delay: 0.2 }}
+        transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+        style={{ rotateX, rotateY, transformStyle: "preserve-3d", perspective: 800 }}
+        onMouseMove={handleNavMouse}
+        onMouseLeave={handleNavLeave}
       >
-        <div className="nav-pill">
-          {["Programs", "Coaches", "About", "Trials", "Contact"].map((item) => (
-            <a key={item} href={`#${item.toLowerCase()}`} className="nav-link">
-              {item}
-            </a>
-          ))}
-        </div>
+        {/* Logo — left */}
+        <a href="/" className="nav-logo">
+          <span className="nav-logo-mark">B</span>
+          <div className="nav-logo-text">
+            <span className="nav-logo-name">BRAJ.</span>
+            <span className="nav-logo-sub">Cricket Academy</span>
+          </div>
+        </a>
 
-        <button
-          className="hamburger"
-          onClick={() => setMenuOpen(!menuOpen)}
-          aria-label="Toggle menu"
-        >
-          <span className={`hamburger-line ${menuOpen ? "open" : ""}`} />
-          <span className={`hamburger-line ${menuOpen ? "open" : ""}`} />
-          <span className={`hamburger-line ${menuOpen ? "open" : ""}`} />
-        </button>
-
+        {/* Links + actions — right */}
         <div className="nav-right">
-          <button
-            className="mobile-theme-btn"
-            onClick={() => setIsDark(!isDark)}
-            aria-label="Toggle dark mode"
-          >
+          <div className="nav-links">
+            {["Programs", "Coaches", "About", "Contact"].map((item) => (
+              <a key={item} href={`#${item.toLowerCase()}`} className="nav-link">
+                {item}
+                <span className="nav-link-line" />
+              </a>
+            ))}
+          </div>
+          <div className="nav-divider" />
+          <button className="mobile-theme-btn" onClick={() => setIsDark(!isDark)} aria-label="Toggle theme">
             {isDark ? <SunIcon /> : <MoonIcon />}
           </button>
-          <a href="#" className="nav-login">Login</a>
-          <a href="#" className="nav-enroll">Enroll Now →</a>
+          <a href="#" className="nav-enroll"><span>Enroll Now →</span></a>
         </div>
       </motion.nav>
 
-      {/* Full-Screen Mobile Menu Overlay */}
+      {/* ── MOBILE NAV (logo left · theme icon · hamburger right) ── */}
+      <div className="mobile-nav">
+        <a href="/" className="nav-logo">
+          <span className="nav-logo-mark">B</span>
+        </a>
+
+        <div className="mob-nav-actions">
+          {/* Standalone theme toggle — icon only, no text */}
+          <motion.button
+            className="mob-theme-icon-btn"
+            onClick={() => setIsDark(!isDark)}
+            whileTap={{ scale: 0.88 }}
+            aria-label="Toggle theme"
+          >
+            {isDark ? <SunIcon /> : <MoonIcon />}
+          </motion.button>
+
+          {/* Hamburger menu button */}
+          <motion.button
+            className="mob-menu-btn"
+            onClick={() => setMenuOpen(!menuOpen)}
+            whileTap={{ scale: 0.92 }}
+            aria-label="Open menu"
+          >
+            <span className={`hamburger-line ${menuOpen ? "open" : ""}`} />
+            <span className={`hamburger-line ${menuOpen ? "open" : ""}`} />
+            <span className={`hamburger-line ${menuOpen ? "open" : ""}`} />
+          </motion.button>
+        </div>
+      </div>
+
+      {/* Mobile dropdown menu */}
       <AnimatePresence>
         {menuOpen && (
           <motion.div
-            className="mobile-menu-overlay"
-            initial={{ opacity: 0, y: "-100%" }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: "-100%" }}
-            transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+            className="mob-dropdown"
+            initial={{ opacity: 0, y: -12, scale: 0.96 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: -8, scale: 0.97 }}
+            transition={{ duration: 0.28, ease: [0.16, 1, 0.3, 1] }}
           >
-            {/* Close Button top right */}
-            <button className="mobile-close-btn" onClick={() => setMenuOpen(false)}>
-              <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-                <line x1="18" y1="6" x2="6" y2="18"></line>
-                <line x1="6" y1="6" x2="18" y2="18"></line>
-              </svg>
-            </button>
-
-            <motion.div 
-              className="mobile-menu-links"
-              initial={{ opacity: 0, scale: 0.95 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.5, delay: 0.2, ease: "easeOut" }}
-            >
-              <a href="#programs" onClick={() => setMenuOpen(false)}>PROGRAMS</a>
-              <a href="#coaches" onClick={() => setMenuOpen(false)}>COACHES</a>
-              <a href="#about" onClick={() => setMenuOpen(false)}>ABOUT</a>
-              <a href="#trials" onClick={() => setMenuOpen(false)}>TRIALS</a>
-              <a href="#contact" onClick={() => setMenuOpen(false)}>CONTACT</a>
-              <div className="mobile-menu-divider"></div>
-              <div className="mobile-menu-ctas">
-                <a href="#enroll" className="mobile-cta-enroll" onClick={() => setMenuOpen(false)}>ENROLL NOW</a>
-                <a href="#login" className="mobile-cta-login" onClick={() => setMenuOpen(false)}>LOGIN</a>
-              </div>
-            </motion.div>
+            {["Programs", "Coaches", "About", "Contact"].map((item) => (
+              <a key={item} href={`#${item.toLowerCase()}`} className="mob-link" onClick={() => setMenuOpen(false)}>
+                {item}
+              </a>
+            ))}
+            <div className="mob-dropdown-divider" />
+            <div className="mob-dropdown-footer">
+              <a href="#enroll" className="mob-enroll" onClick={() => setMenuOpen(false)}>
+                Enroll Now →
+              </a>
+            </div>
           </motion.div>
         )}
       </AnimatePresence>

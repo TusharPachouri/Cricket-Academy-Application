@@ -29,12 +29,13 @@ const coaches = [
   },
 ];
 
-const slideVariants = (direction: "left" | "right") => ({
-  hidden: { opacity: 0, x: direction === "left" ? -60 : 60 },
+const slideVariants = (direction: "left" | "right", i: number) => ({
+  hidden: { opacity: 0, x: direction === "left" ? -60 : 60, filter: "blur(8px)" },
   show: {
     opacity: 1,
     x: 0,
-    transition: { type: "spring" as const, stiffness: 80, damping: 20 },
+    filter: "blur(0px)",
+    transition: { type: "spring" as const, stiffness: 80, damping: 20, delay: i * 0.1 },
   },
 });
 
@@ -42,7 +43,7 @@ export default function Coaches() {
   return (
     <section style={{ background: "#0B0F1A" }} className="w-full py-24 px-8">
       <div className="max-w-6xl mx-auto">
-        <ScrollReveal>
+        <ScrollReveal direction="up" delay={0}>
           <div className="mb-16">
             <h2 style={{ fontSize: "clamp(40px, 6vw, 80px)", lineHeight: 1, color: "#fff" }}>
               <span style={{ fontFamily: "var(--font-bebas)", letterSpacing: "0.02em" }}>Meet the </span>
@@ -63,7 +64,7 @@ export default function Coaches() {
           {coaches.map((c, i) => (
             <motion.div
               key={i}
-              variants={slideVariants(i % 2 === 0 ? "left" : "right")}
+              variants={slideVariants(i % 2 === 0 ? "left" : "right", i)}
               initial="hidden"
               whileInView="show"
               viewport={{ once: true, amount: 0.25 }}

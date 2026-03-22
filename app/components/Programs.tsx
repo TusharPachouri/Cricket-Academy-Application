@@ -83,7 +83,7 @@ export default function Programs() {
   return (
     <section style={{ background: "var(--cream)" }} className="w-full py-24 px-8">
       <div className="max-w-6xl mx-auto">
-        <ScrollReveal>
+        <ScrollReveal direction="up" delay={0}>
           <div className="mb-16">
             <p style={{
               fontFamily: "var(--font-fell)",

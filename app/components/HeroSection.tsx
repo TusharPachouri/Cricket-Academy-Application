@@ -1,7 +1,7 @@
 "use client";
 import { useState, useEffect } from "react";
 import dynamic from "next/dynamic";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence, useScroll, useTransform } from "framer-motion";
 
 const CricketBall3D = dynamic(() => import("./CricketBall3D"), { ssr: false });
 
@@ -28,6 +28,11 @@ const MoonIcon = () => (
 export default function HeroSection() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [isDark, setIsDark] = useState(false);
+
+  // Scroll animation: ball moves down and fades out
+  const { scrollY } = useScroll();
+  const ballY = useTransform(scrollY, [0, 800], [0, 400]);
+  const ballOpacity = useTransform(scrollY, [0, 600, 1000], [1, 1, 0]);
 
   /* Hook to apply 'dark' class to html element globally */
   useEffect(() => {
@@ -160,6 +165,7 @@ export default function HeroSection() {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 1, delay: 0.1, ease: "easeOut" }}
+          style={{ y: ballY, opacity: ballOpacity }}
         >
           <CricketBall3D isDark={isDark} />
         </motion.div>

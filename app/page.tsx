@@ -5,6 +5,7 @@ import Coaches from "./components/Coaches";
 import Testimonial from "./components/Testimonial";
 import CTAFooter from "./components/CTAFooter";
 import HeroSection from "./components/HeroSection";
+import Marquee from "./components/Marquee";
 
 export default function Home() {
   return (
@@ -12,6 +13,7 @@ export default function Home() {
       <Cursor />
       <main>
         <HeroSection />
+        <Marquee />
         <StatsBar />
         <Programs />
         <Coaches />

@@ -3,23 +3,23 @@
 @tailwind utilities;
 
 :root {
-  /* ── Indian Test Cricket Palette ── */
-  --gold:         #C9A84C;   /* Heritage gold — primary accent */
+  /* ── Custom Provided Palette ── */
+  --gold:         #C5A059;   /* Secondary/Tertiary Gold */
   --maroon:       #7B1C2A;   /* Cricket ball deep red */
-  --navy:         #002D62;   /* BCCI India blue */
-  --saffron:      #FF9933;   /* Indian flag saffron — warm CTA */
-  --cream:        #F4EFE4;   /* Test pitch whites */
-  --dark:         #0B0F1A;   /* Night session dark */
-  --india-green:  #138808;   /* Indian flag green */
-  --page-bg:      #EDE8DC;   /* Warm parchment */
-  --card-bg:      #FDFAF4;   /* Warm cream cards */
+  --navy:         #0D1117;   /* Merging Navy with Primary */
+  --saffron:      #FF9933;   /* Keeping Saffron for accents */
+  --cream:        #F2EFE4;   /* Neutral Cream */
+  --dark:         #0D1117;   /* Primary Dark Slate */
+  --india-green:  #138808;   
+  --page-bg:      #F2EFE4;   /* Neutral Base */
+  --card-bg:      #EBE8DB;   /* Very slight elevation on Neutral */
   --text-gray:    #666666;   /* Accessible medium gray */
   --tagline-text: #4a3a28;   /* Warm dark brown */
 
-  /* Legacy aliases — backward compat for var(--lime) references */
-  --lime:         #C9A84C;
+  /* Legacy aliases — backward compat */
+  --lime:         #C5A059;
   --green:        #138808;
-  --blue:         #002D62;
+  --blue:         #0D1117;
 
   /* ── Font Variables ── */
   --font-cormorant: 'Cormorant Garamond', serif;
@@ -29,10 +29,11 @@
 }
 
 html.dark {
-  --page-bg:      #111111;   /* Pitch black */
-  --dark:         #F5F5E9;   /* Soft off-white */
-  --card-bg:      #1A1A1A;   /* Slight elevation */
-  --text-gray:    #A3A3A3;   /* Lighter premium gray for dark mode readability */
+  --page-bg:      #0D1117;   /* Primary Dark Slate */
+  --cream:        #161A22;   /* Elevated Slate for components */
+  --dark:         #F2EFE4;   /* Neutral Cream for text */
+  --card-bg:      #161A22;   /* Elevated Cards */
+  --text-gray:    #A3A3A3;   /* Lighter gray for dark mode */
   --tagline-text: #D6D0C4;   /* Soft creamy gold tone */
 }
 
@@ -95,6 +96,13 @@ body {
   overflow: hidden;
   display: flex;
   flex-direction: column;
+}
+
+/* Push stats section lower on laptops/desktops */
+@media (min-width: 769px) {
+  .hero-section {
+    min-height: max(100vh, 1050px);
+  }
 }
 
 /* Grain noise */
@@ -414,11 +422,14 @@ body {
   margin-top: 10px;
 }
 
-/* 3D Ball container — centered on same point as title (uses inset+margin to avoid transform conflict with Framer Motion) */
+/* 3D Ball container — overlaps title text */
 .hero-ball-wrap {
   position: absolute;
-  inset: 0;
-  margin: auto;
+  top: 10vh;
+  bottom: auto;
+  left: 0;
+  right: 0;
+  margin: 0 auto;
   z-index: 3;
   width: clamp(280px, 38vw, 1000px);
   height: clamp(280px, 38vw, 1000px);

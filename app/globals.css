@@ -37,8 +37,25 @@ html.dark {
   --tagline-text: #D6D0C4;   /* Soft creamy gold tone */
 }
 
+/* Hero is transparent so the fixed GlowBG layer shows through in both modes */
+.hero-section {
+  background: transparent !important;
+}
+
+/* Dark mode: below-hero sections get a subtle semi-transparent bg so glows bleed at the edges */
+html.dark main > .section-frame > * {
+  position: relative;
+  z-index: 1;
+}
+
+html.dark main > .section-frame {
+  isolation: auto;
+}
+
 /* Ensure body transitions smoothly */
 body {
+  position: relative;
+  z-index: 1;
   transition: background-color 0.4s ease, color 0.4s ease;
 }
 
@@ -159,6 +176,26 @@ body {
 @media (min-width: 769px) {
   .hero-section {
     min-height: max(100vh, 1050px);
+  }
+}
+
+/* ── iPad / tablet (769px–1100px) — match desktop look ── */
+@media (min-width: 769px) and (max-width: 1100px) {
+  .hero-ball-wrap {
+    /* Larger than 38vw default so ball is as dominant as on desktop monitors */
+    width: clamp(480px, 58vw, 660px);
+    height: clamp(480px, 58vw, 660px);
+    top: 4vh; /* Match desktop top offset */
+  }
+
+  /* Match desktop spacer proportion so ball overlaps BRAJ the same way */
+  .title-ball-spacer {
+    width: clamp(260px, 36vw, 440px);
+  }
+
+  /* Ensure title font scales up enough to fill iPad width like desktop */
+  .hero-title-main {
+    font-size: clamp(140px, 20vw, 420px);
   }
 }
 
@@ -479,10 +516,22 @@ body {
   margin-top: 10px;
 }
 
+/* Light mode ball vignette — dark radial shadow behind the ball like dark mode naturally has */
+html:not(.dark) .hero-ball-wrap::before {
+  content: '';
+  position: absolute;
+  inset: -15%;
+  border-radius: 50%;
+  background: radial-gradient(ellipse at 50% 55%, rgba(20,12,5,0.18) 0%, rgba(30,18,8,0.10) 40%, transparent 70%);
+  z-index: -1;
+  pointer-events: none;
+  filter: blur(18px);
+}
+
 /* 3D Ball container — overlaps title text */
 .hero-ball-wrap {
   position: absolute;
-  top: 10vh;
+  top: 4vh;
   bottom: auto;
   left: 0;
   right: 0;

@@ -70,15 +70,6 @@ export default function HeroSection() {
           ))}
         </div>
 
-        <button 
-          className="mobile-theme-btn" 
-          onClick={() => setIsDark(!isDark)}
-          aria-label="Toggle dark mode"
-          style={{ display: 'flex', alignItems: 'center', color: 'var(--dark)' }}
-        >
-          {isDark ? <SunIcon /> : <MoonIcon />}
-        </button>
-
         <button
           className="hamburger"
           onClick={() => setMenuOpen(!menuOpen)}
@@ -90,10 +81,9 @@ export default function HeroSection() {
         </button>
 
         <div className="nav-right">
-          <button 
-            className="theme-toggle nav-link flex items-center justify-center text-[var(--dark)]" 
+          <button
+            className="mobile-theme-btn"
             onClick={() => setIsDark(!isDark)}
-            style={{ background: 'none', border: 'none', cursor: 'pointer', padding: '0 8px', color: 'var(--dark)' }}
             aria-label="Toggle dark mode"
           >
             {isDark ? <SunIcon /> : <MoonIcon />}

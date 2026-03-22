@@ -65,14 +65,13 @@ function ProgramIcon({ type }: { type: string }) {
 }
 
 const cardVariants = {
-  hidden: { opacity: 0, scale: 0.92, y: 24 },
+  hidden: { opacity: 0, x: 40 },
   show: (i: number) => ({
     opacity: 1,
-    scale: 1,
-    y: 0,
+    x: 0,
     transition: {
       type: "spring" as const,
-      stiffness: 90,
+      stiffness: 80,
       damping: 18,
       delay: i * 0.12,
     },
@@ -81,10 +80,11 @@ const cardVariants = {
 
 export default function Programs() {
   return (
-    <section style={{ background: "var(--cream)" }} className="w-full py-24 px-8">
-      <div className="max-w-6xl mx-auto">
-        <ScrollReveal direction="up" delay={0}>
-          <div className="mb-16">
+    <section className="programs-hscroll">
+      <div className="programs-hscroll-inner">
+        {/* Sticky Left */}
+        <div className="programs-hscroll-left">
+          <ScrollReveal direction="up" delay={0}>
             <p style={{
               fontFamily: "var(--font-fell)",
               letterSpacing: "0.2em",
@@ -94,40 +94,56 @@ export default function Programs() {
               marginBottom: 12,
               opacity: 0.85,
             }}>
-              What We Offer
+              Elite Training
             </p>
             <h2 style={{
               fontFamily: "var(--font-playfair)",
-              fontSize: "clamp(36px, 5vw, 64px)",
+              fontSize: "clamp(36px, 5vw, 56px)",
               fontStyle: "italic",
               fontWeight: 700,
               color: "var(--dark)",
               lineHeight: 1.1,
+              marginBottom: 20,
             }}>
               Programs Built<br />for Champions
             </h2>
-          </div>
-        </ScrollReveal>
+            <p style={{
+              fontFamily: "var(--font-dm)",
+              fontSize: 14,
+              color: "var(--text-gray)",
+              lineHeight: 1.75,
+              marginBottom: 24,
+            }}>
+              Master the art and science of the game under the 
+              guidance of legends. Our curriculum is designed 
+              to refine talent at every level of the athlete.
+            </p>
+            <div style={{
+              display: "flex",
+              alignItems: "center",
+              gap: 8,
+              color: "var(--gold)",
+              fontFamily: "var(--font-fell)",
+              fontSize: 12,
+              letterSpacing: "0.1em",
+              cursor: "pointer",
+            }}>
+              EXPLORE ALL →
+            </div>
+          </ScrollReveal>
+        </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        {/* Horizontal scrolling cards */}
+        <div className="programs-hscroll-right">
           {programs.map((p, i) => (
             <motion.div
               key={i}
-              className="program-card"
+              className="program-hcard"
               custom={i}
               variants={cardVariants}
               initial="hidden"
               whileInView="show"
               viewport={{ once: true, amount: 0.2 }}
-              style={{
-                background: "var(--card-bg)",
-                borderRadius: 16,
-                padding: "28px 24px",
-                borderTop: "3px solid var(--gold)",
-                height: "100%",
-                cursor: "default",
-                boxShadow: "0 2px 16px rgba(11,15,26,0.06)",
-              }}
             >
               <div style={{ marginBottom: 20 }}>
                 <ProgramIcon type={p.icon} />
@@ -152,9 +168,26 @@ export default function Programs() {
               }}>
                 {p.title}
               </h3>
-              <p style={{ fontFamily: "var(--font-dm)", fontSize: 13.5, color: "var(--text-gray)", lineHeight: 1.65 }}>
+              <p style={{
+                fontFamily: "var(--font-dm)",
+                fontSize: 13.5,
+                color: "var(--text-gray)",
+                lineHeight: 1.65,
+                marginBottom: 24,
+              }}>
                 {p.desc}
               </p>
+              <div style={{
+                fontFamily: "var(--font-barlow)",
+                fontSize: 12,
+                fontWeight: 700,
+                color: "var(--gold)",
+                letterSpacing: "0.1em",
+                textTransform: "uppercase",
+                cursor: "pointer",
+              }}>
+                Enroll Now →
+              </div>
             </motion.div>
           ))}
         </div>

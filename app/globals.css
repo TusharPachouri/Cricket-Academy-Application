@@ -53,6 +53,56 @@ html {
   }
 }
 
+/* ═══════════════════════════════════════
+   MOBILE CARD STACK
+   ═══════════════════════════════════════ */
+
+/* Desktop: transparent wrapper — children slot directly into parent flex/grid */
+.ms-wrap {
+  display: contents;
+}
+
+/* Desktop: ms-card is a neutral block wrapper */
+.ms-card {
+  display: block;
+}
+
+@media (max-width: 768px) {
+  /* Wrap becomes a block container that fills its parent */
+  .ms-wrap {
+    display: block;
+    position: relative;
+    /* Extra bottom space so the last card can unstick cleanly */
+    padding-bottom: 32px;
+  }
+
+  /* Each card sticks at the top and stacks as new ones slide over */
+  .ms-card {
+    position: sticky;
+    /* top is set inline per-card */
+    border-radius: 16px;
+    overflow: hidden;
+    /* Gap between consecutive stuck cards creates visible stack edge */
+    margin-bottom: 12px;
+  }
+
+  .ms-card:last-child {
+    margin-bottom: 0;
+  }
+
+  /* Force solid backgrounds so stacked cards don't bleed through */
+  .ms-card .method-step {
+    background: #1c2026;
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+  }
+
+  /* Coaches cards — solid background when stacked */
+  .ms-card .coach-card {
+    background: #0d2045 !important;
+  }
+}
+
 * {
   box-sizing: border-box;
   margin: 0;
@@ -984,9 +1034,10 @@ body {
   }
   .programs-hscroll-right {
     width: 100%;
-    padding-right: 16px;
+    overflow: visible;  /* must be visible for position:sticky to work */
+    display: block;
   }
-  .program-hcard { min-width: 280px; }
+  .program-hcard { min-width: 280px; background: var(--card-bg); }
 }
 
 /* ═══════════════════════════════════════
@@ -1084,7 +1135,7 @@ body {
     min-width: auto;
     max-width: 100%;
   }
-  .method-right { gap: 32px; padding: 0 0 60px 0; }
+  .method-right { display: block; overflow: visible; padding: 0 0 60px 0; }
   .method-step { padding: 28px 20px; }
 }
 

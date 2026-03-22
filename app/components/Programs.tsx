@@ -1,6 +1,7 @@
 "use client";
 import { motion } from "framer-motion";
 import ScrollReveal from "./ScrollReveal";
+import MobileCardStack from "./MobileCardStack";
 
 const programs = [
   {
@@ -133,8 +134,9 @@ export default function Programs() {
           </ScrollReveal>
         </div>
 
-        {/* Horizontal scrolling cards */}
+        {/* Horizontal scrolling cards — stacks on mobile */}
         <div className="programs-hscroll-right">
+          <MobileCardStack topOffset={72}>
           {programs.map((p, i) => (
             <motion.div
               key={i}
@@ -190,6 +192,7 @@ export default function Programs() {
               </div>
             </motion.div>
           ))}
+          </MobileCardStack>
         </div>
       </div>
     </section>

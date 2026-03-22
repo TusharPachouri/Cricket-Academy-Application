@@ -2,6 +2,7 @@
 import { useRef, useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import ScrollReveal from "./ScrollReveal";
+import MobileCardStack from "./MobileCardStack";
 
 const steps = [
   {
@@ -151,6 +152,7 @@ export default function OurMethod() {
 
         {/* Scrolling right panel */}
         <div className="method-right">
+          <MobileCardStack topOffset={72}>
           {steps.map((step, i) => (
             <motion.div
               key={i}
@@ -184,6 +186,7 @@ export default function OurMethod() {
               </p>
             </motion.div>
           ))}
+          </MobileCardStack>
         </div>
       </div>
     </section>

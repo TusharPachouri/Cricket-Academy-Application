@@ -1,6 +1,7 @@
 "use client";
 import { motion } from "framer-motion";
 import ScrollReveal from "./ScrollReveal";
+import MobileCardStack from "./MobileCardStack";
 
 const coaches = [
   {
@@ -61,9 +62,11 @@ export default function Coaches() {
         </ScrollReveal>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <MobileCardStack topOffset={72}>
           {coaches.map((c, i) => (
             <motion.div
               key={i}
+              className="coach-card"
               variants={slideVariants(i % 2 === 0 ? "left" : "right", i)}
               initial="hidden"
               whileInView="show"
@@ -109,6 +112,7 @@ export default function Coaches() {
               </p>
             </motion.div>
           ))}
+          </MobileCardStack>
         </div>
       </div>
     </section>

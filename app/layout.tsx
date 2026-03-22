@@ -57,7 +57,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" className="dark">
       <body
         className={`${bebasNeue.variable} ${playfairDisplay.variable} ${barlowCondensed.variable} ${dmSans.variable} ${instrumentSerif.variable} ${cormorantGaramond.variable} ${imFellEnglish.variable}`}
       >

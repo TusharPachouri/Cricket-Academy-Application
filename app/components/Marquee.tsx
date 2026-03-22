@@ -28,7 +28,7 @@ export default function Marquee() {
   return (
     <div
       style={{
-        background: "var(--dark)",
+        background: "#0B0F1A",
         borderTop: "1px solid rgba(201,168,76,0.15)",
         borderBottom: "1px solid rgba(201,168,76,0.15)",
         overflow: "hidden",
@@ -41,7 +41,7 @@ export default function Marquee() {
       {/* Fade edges */}
       <div style={{
         position: "absolute", inset: 0, zIndex: 2, pointerEvents: "none",
-        background: "linear-gradient(to right, var(--dark) 0%, transparent 8%, transparent 92%, var(--dark) 100%)",
+        background: "linear-gradient(to right, #0B0F1A 0%, transparent 8%, transparent 92%, #0B0F1A 100%)",
       }} />
 
       <motion.div

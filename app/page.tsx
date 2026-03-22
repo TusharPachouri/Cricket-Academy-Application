@@ -17,24 +17,25 @@ export default function Home() {
       <main>
         <HeroSection />
 
-        {/* One continuous rail wrapping all sections below hero */}
+        <SectionFrame><Marquee /></SectionFrame>
+        <SectionFrame><BentoStats /></SectionFrame>
         <SectionFrame>
-          <Marquee />
-          <BentoStats />
           <QuoteDivider
             quote="Cricket is not just a sport — it is a discipline of the mind, body, and character forged over a lifetime."
             attribution="Braj Cricket Academy · Est. 2009"
           />
-          <Programs />
-          <OurMethod />
+        </SectionFrame>
+        <SectionFrame><Programs /></SectionFrame>
+        <SectionFrame><OurMethod /></SectionFrame>
+        <SectionFrame>
           <QuoteDivider
             quote="The best coaches don't create followers. They create thinkers who can read the game before it happens."
             attribution="Rajesh Kumar · Head Coach"
           />
-          <Coaches />
-          <Testimonial />
-          <CTAFooter />
         </SectionFrame>
+        <SectionFrame><Coaches /></SectionFrame>
+        <SectionFrame><Testimonial /></SectionFrame>
+        <SectionFrame><CTAFooter /></SectionFrame>
       </main>
     </>
   );

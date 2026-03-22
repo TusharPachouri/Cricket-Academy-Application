@@ -27,7 +27,7 @@ const MoonIcon = () => (
 
 export default function HeroSection() {
   const [menuOpen, setMenuOpen] = useState(false);
-  const [isDark, setIsDark] = useState(false);
+  const [isDark, setIsDark] = useState(true);
 
   // Scroll animation: ball moves down and fades out
   const { scrollY } = useScroll();

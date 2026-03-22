@@ -1,7 +1,7 @@
 "use client";
 import { useState } from "react";
 import dynamic from "next/dynamic";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 
 const CricketBall3D = dynamic(() => import("./CricketBall3D"), { ssr: false });
 
@@ -54,59 +54,87 @@ export default function HeroSection() {
         </div>
       </motion.nav>
 
-      {/* Mobile menu */}
-      <div className={`mobile-menu ${menuOpen ? "mobile-menu--open" : ""}`}>
-        {["Programs", "Coaches", "About", "Trials", "Contact"].map((item) => (
-          <a
-            key={item}
-            href={`#${item.toLowerCase()}`}
-            className="mobile-menu-link"
-            onClick={() => setMenuOpen(false)}
+      {/* Full-Screen Mobile Menu Overlay */}
+      <AnimatePresence>
+        {menuOpen && (
+          <motion.div
+            className="mobile-menu-overlay"
+            initial={{ opacity: 0, y: "-100%" }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: "-100%" }}
+            transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
           >
-            {item}
-          </a>
-        ))}
-        <div className="mobile-menu-actions">
-          <a href="#" className="nav-login">Login</a>
-          <a href="#" className="nav-enroll">Enroll Now →</a>
-        </div>
-      </div>
+            {/* Close Button top right */}
+            <button className="mobile-close-btn" onClick={() => setMenuOpen(false)}>
+              <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                <line x1="18" y1="6" x2="6" y2="18"></line>
+                <line x1="6" y1="6" x2="18" y2="18"></line>
+              </svg>
+            </button>
+
+            <motion.div 
+              className="mobile-menu-links"
+              initial={{ opacity: 0, scale: 0.95 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.5, delay: 0.2, ease: "easeOut" }}
+            >
+              <a href="#programs" onClick={() => setMenuOpen(false)}>PROGRAMS</a>
+              <a href="#coaches" onClick={() => setMenuOpen(false)}>COACHES</a>
+              <a href="#about" onClick={() => setMenuOpen(false)}>ABOUT</a>
+              <a href="#trials" onClick={() => setMenuOpen(false)}>TRIALS</a>
+              <a href="#contact" onClick={() => setMenuOpen(false)}>CONTACT</a>
+              <div className="mobile-menu-divider"></div>
+              <div className="mobile-menu-ctas">
+                <a href="#enroll" className="mobile-cta-enroll" onClick={() => setMenuOpen(false)}>ENROLL NOW</a>
+                <a href="#login" className="mobile-cta-login" onClick={() => setMenuOpen(false)}>LOGIN</a>
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
 
       {/* HERO CONTENT */}
       <div className="hero-content">
-        {/* GIANT TITLE */}
+        {/* GIANT TITLE (Solid Background Layer) */}
         <motion.h1
           className="hero-title"
-          initial={{ opacity: 0, y: 40 }}
-          animate={{ opacity: 1, y: 0 }}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
           transition={{ duration: 0.8, delay: 0.3, ease: "easeOut" }}
         >
-          <span style={{ display: "block", fontSize: "clamp(70px, 12vw, 200px)", letterSpacing: "0.04em" }}>
-            BRAJ
-          </span>
-          <span style={{
-            display: "block",
-            fontFamily: "var(--font-cormorant)",
-            fontStyle: "italic",
-            fontWeight: 300,
-            fontSize: "clamp(18px, 3vw, 48px)",
-            letterSpacing: "0.28em",
-            color: "var(--gold)",
-            lineHeight: 1.6,
-          }}>
-            Cricket Academy
-          </span>
+          <span className="hero-title-main">BRAJ.</span>
+          <div className="hero-title-sub-row">
+            <span className="hero-title-sub">Cricket</span>
+            <div className="title-ball-spacer"></div>
+            <span className="hero-title-sub">Academy</span>
+          </div>
         </motion.h1>
 
-        {/* 3D Ball */}
-        <motion.div 
+        {/* 3D Ball Layer */}
+        <motion.div
           className="hero-ball-wrap"
-          initial={{ scale: 0.8, opacity: 0 }}
-          animate={{ scale: 1, opacity: 1 }}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
           transition={{ duration: 1, delay: 0.1, ease: "easeOut" }}
         >
           <CricketBall3D />
         </motion.div>
+
+        {/* GIANT TITLE (Outlined Foreground Layer) */}
+        <motion.h1
+          className="hero-title hero-title-front"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.8, delay: 0.3, ease: "easeOut" }}
+          aria-hidden="true"
+        >
+          <span className="hero-title-main outline-text">BRAJ.</span>
+          <div className="hero-title-sub-row" style={{ visibility: 'hidden' }}>
+            <span className="hero-title-sub">Cricket</span>
+            <div className="title-ball-spacer"></div>
+            <span className="hero-title-sub">Academy</span>
+          </div>
+        </motion.h1>
 
         {/* Features — right */}
         <motion.div 

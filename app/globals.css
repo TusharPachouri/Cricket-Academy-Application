@@ -228,34 +228,38 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  min-height: calc(100vh - 90px);
+  height: calc(100vh - 90px);
   padding: 0 56px;
+  overflow: hidden;
 }
 
-/* HUGE TITLE — spans full width, behind ball */
+/* HUGE TITLE — centered behind ball (uses inset+flex to avoid transform conflict with Framer Motion) */
 .hero-title {
   position: absolute;
-  top: 50%;
-  left: 56px;
-  right: 56px;
-  transform: translateY(-42%);
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
   font-family: var(--font-bebas);
-  font-size: clamp(100px, 17vw, 300px);
+  font-size: clamp(80px, 15vw, 280px);
   color: var(--dark);
   letter-spacing: 0.02em;
   line-height: 0.85;
   user-select: none;
   z-index: 1;
-  animation: fadeUp 0.8s ease 0.1s both;
+  text-align: center;
+  pointer-events: none;
 }
 
-/* 3D Ball container */
+/* 3D Ball container — centered on same point as title */
 .hero-ball-wrap {
-  position: relative;
+  position: absolute;
+  inset: 0;
+  margin: auto;
   z-index: 3;
-  width: clamp(380px, 40vw, 540px);
-  height: clamp(380px, 40vw, 540px);
-  margin-top: -40px;
+  width: clamp(280px, 38vw, 520px);
+  height: clamp(280px, 38vw, 520px);
 }
 
 /* CSS shadow fallback under ball */
@@ -455,22 +459,17 @@ body {
   .mobile-menu--open { padding-left: 24px; padding-right: 24px; }
 
   .hero-content {
-    min-height: calc(100vh - 70px);
+    height: calc(100vh - 70px);
     padding: 0 24px;
   }
 
   .hero-title {
-    font-size: clamp(64px, 18vw, 140px);
-    left: 24px;
-    right: 24px;
-    top: 50%;
-    transform: translateY(-42%);
+    font-size: clamp(56px, 14vw, 130px);
   }
 
   .hero-ball-wrap {
-    width: clamp(320px, 44vw, 440px);
-    height: clamp(320px, 44vw, 440px);
-    margin-top: -30px;
+    width: clamp(240px, 50vw, 380px);
+    height: clamp(240px, 50vw, 380px);
   }
 
   .hero-features { display: none; }
@@ -506,17 +505,12 @@ body {
   .hero-content { padding: 0 16px; }
 
   .hero-title {
-    font-size: clamp(52px, 20vw, 100px);
-    left: 16px;
-    right: 16px;
-    top: 50%;
-    transform: translateY(-42%);
+    font-size: clamp(44px, 13vw, 80px);
   }
 
   .hero-ball-wrap {
-    width: clamp(260px, 70vw, 320px);
-    height: clamp(260px, 70vw, 320px);
-    margin-top: -20px;
+    width: clamp(200px, 60vw, 280px);
+    height: clamp(200px, 60vw, 280px);
   }
 
   .hero-left-info {

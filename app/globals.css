@@ -541,46 +541,58 @@ body {
 }
 
 .watch-btn {
-  width: 120px;
-  height: 120px;
+  width: 90px;
+  height: 90px;
   border-radius: 50%;
-  background: var(--saffron);
+  background: radial-gradient(circle at 35% 30%, #e55353, #b31b1b 60%, #5c0a0a 100%);
   border: none;
   cursor: pointer;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 6px;
-  box-shadow: 0 12px 40px rgba(255,153,51,0.35);
+  gap: 4px;
+  box-shadow: 
+    inset -8px -8px 16px rgba(0,0,0,0.4),
+    inset 4px 4px 10px rgba(255,255,255,0.3),
+    0 12px 30px rgba(179,27,27,0.4);
   animation: bounce-cta 2.5s ease-in-out infinite;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s ease;
 }
 
 .watch-btn:hover {
   animation: none;
-  transform: scale(1.1);
-  box-shadow: 0 16px 50px rgba(255,153,51,0.5);
+  transform: scale(1.1) translateY(-4px);
+  box-shadow: 
+    inset -8px -8px 16px rgba(0,0,0,0.4),
+    inset 4px 4px 10px rgba(255,255,255,0.3),
+    0 16px 40px rgba(179,27,27,0.6);
 }
 
 .watch-btn-arrow {
-  font-size: 20px;
-  color: var(--dark);
+  font-size: 18px;
+  color: #fff;
+  text-shadow: 0 2px 4px rgba(0,0,0,0.3);
 }
 
 .watch-btn-text {
   font-family: var(--font-barlow);
-  font-size: 11px;
-  font-weight: 600;
-  color: var(--dark);
-  letter-spacing: 0.04em;
+  font-size: 9px;
+  font-weight: 700;
+  color: #fff;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  text-shadow: 0 1px 2px rgba(0,0,0,0.5);
 }
 
 /* ═══════════════════════════════════════
    MOBILE RESPONSIVE
    ═══════════════════════════════════════ */
 @media (max-width: 768px) {
-  .hero-nav { padding: 18px 24px; }
+  .hero-nav { 
+    padding: 18px 24px; 
+    justify-content: flex-end;
+  }
   .hamburger { display: flex; }
   .nav-pill { display: none; }
   .nav-right { display: none; }
@@ -598,7 +610,11 @@ body {
   }
   
   .hero-title-main {
-    font-size: clamp(80px, 18vw, 240px);
+    font-size: clamp(80px, 18vw, 200px);
+  }
+
+  .hero-title-sub-row {
+    padding-left: 16px;
   }
 
   .hero-title-sub {
@@ -630,21 +646,32 @@ body {
   }
 
   .hero-right-cta {
-    bottom: 24px;
+    bottom: 40px;
     right: 24px;
   }
 
   .watch-btn {
-    width: 90px;
-    height: 90px;
+    width: 60px;
+    height: 60px;
+    position: relative;
   }
 
-  .watch-btn-text { font-size: 9px; }
+  .watch-btn-text { 
+    position: absolute;
+    top: calc(100% + 4px);
+    color: var(--dark);
+    text-shadow: none;
+    font-size: 10px;
+    width: max-content;
+  }
   .watch-btn-arrow { font-size: 16px; }
 }
 
 @media (max-width: 420px) {
-  .hero-nav { padding: 14px 16px; }
+  .hero-nav { 
+    padding: 14px 16px; 
+    justify-content: flex-end;
+  }
 
   .hero-content { padding: 0 16px; }
 
@@ -654,7 +681,11 @@ body {
   }
   
   .hero-title-main {
-    font-size: clamp(60px, 18vw, 150px);
+    font-size: clamp(70px, 18vw, 120px);
+  }
+
+  .hero-title-sub-row {
+    padding-left: 20px;
   }
 
   .hero-title-sub {
@@ -678,17 +709,25 @@ body {
   }
 
   .hero-right-cta {
-    bottom: 18px;
+    bottom: 40px;
     right: 16px;
   }
 
   .watch-btn {
-    width: 72px;
-    height: 72px;
+    width: 48px;
+    height: 48px;
+    position: relative;
   }
 
   .watch-btn-arrow { font-size: 14px; }
-  .watch-btn-text { font-size: 8px; }
+  .watch-btn-text { 
+    position: absolute;
+    top: calc(100% + 4px);
+    color: var(--dark);
+    text-shadow: none;
+    font-size: 9px;
+    width: max-content;
+  }
 
   .hero-stat-num { font-size: 20px; }
 

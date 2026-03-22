@@ -9,11 +9,13 @@ interface BallProps {
   mousePos: React.RefObject<{ x: number; y: number }>;
   isDragging: React.RefObject<boolean>;
   dragDelta: React.RefObject<{ x: number; y: number }>;
+  isDark: boolean;
 }
 
-function Ball({ scrollY, mousePos, isDragging, dragDelta }: BallProps) {
+function Ball({ scrollY, mousePos, isDragging, dragDelta, isDark }: BallProps) {
   const groupRef = useRef<THREE.Group>(null);
-  const { scene } = useGLTF("/cricket_ball_sports_white..glb");
+  const modelPath = isDark ? "/cricket_ball_sports..glb" : "/cricket_ball_sports_white..glb";
+  const { scene } = useGLTF(modelPath);
   const { viewport } = useThree();
 
   // Bounce state — drives a spring animation in useFrame
@@ -167,7 +169,7 @@ function Loader() {
   );
 }
 
-export default function CricketBall3D() {
+export default function CricketBall3D({ isDark = false }: { isDark?: boolean }) {
   const scrollRef = useRef(0);
   const mousePosRef = useRef({ x: 0, y: 0 });
   const isDraggingRef = useRef(false);
@@ -249,6 +251,7 @@ export default function CricketBall3D() {
             mousePos={mousePosRef}
             isDragging={isDraggingRef}
             dragDelta={dragDeltaRef}
+            isDark={isDark}
           />
           <SceneResponsiveShadow />
         </Canvas>
@@ -258,3 +261,4 @@ export default function CricketBall3D() {
 }
 
 useGLTF.preload("/cricket_ball_sports_white..glb");
+useGLTF.preload("/cricket_ball_sports..glb");

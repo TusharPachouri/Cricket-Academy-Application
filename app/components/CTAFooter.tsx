@@ -12,7 +12,7 @@ const wordVariants = {
 
 export default function CTAFooter() {
   return (
-    <section style={{ background: "var(--dark)" }} className="w-full py-28 px-8">
+    <section style={{ background: "#0B0F1A" }} className="w-full py-28 px-8">
       <div className="max-w-5xl mx-auto text-center">
         <h2 style={{ lineHeight: 1.05, marginBottom: 40 }}>
           <div style={{ display: "flex", flexWrap: "wrap", justifyContent: "center", gap: "0 0.25em", overflow: "hidden" }}>

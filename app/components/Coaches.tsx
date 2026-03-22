@@ -40,7 +40,7 @@ const slideVariants = (direction: "left" | "right") => ({
 
 export default function Coaches() {
   return (
-    <section style={{ background: "var(--dark)" }} className="w-full py-24 px-8">
+    <section style={{ background: "#0B0F1A" }} className="w-full py-24 px-8">
       <div className="max-w-6xl mx-auto">
         <ScrollReveal>
           <div className="mb-16">

@@ -152,7 +152,7 @@ export default function Programs() {
               }}>
                 {p.title}
               </h3>
-              <p style={{ fontFamily: "var(--font-dm)", fontSize: 13.5, color: "#666", lineHeight: 1.65 }}>
+              <p style={{ fontFamily: "var(--font-dm)", fontSize: 13.5, color: "var(--text-gray)", lineHeight: 1.65 }}>
                 {p.desc}
               </p>
             </motion.div>

@@ -3,6 +3,7 @@ import { motion } from "framer-motion";
 import ScrollReveal from "./ScrollReveal";
 import MobileCardStack from "./MobileCardStack";
 
+
 const coaches = [
   {
     initials: "RK",

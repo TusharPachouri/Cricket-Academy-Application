@@ -185,23 +185,30 @@ body {
   }
 }
 
-/* ── iPad / tablet (769px–1100px) — match desktop look ── */
+/* ── iPad / tablet (769px–1100px) — big ball at bottom, text overlaps from above ── */
 @media (min-width: 769px) and (max-width: 1100px) {
+  /* Ball anchored to the bottom — big and dominant */
   .hero-ball-wrap {
-    /* Larger than 38vw default so ball is as dominant as on desktop monitors */
-    width: clamp(480px, 58vw, 660px);
-    height: clamp(480px, 58vw, 660px);
-    top: 4vh; /* Match desktop top offset */
+    width: clamp(580px, 82vw, 960px);
+    height: clamp(580px, 82vw, 960px);
+    top: auto;
+    bottom: -10vh;
   }
 
-  /* Match desktop spacer proportion so ball overlaps BRAJ the same way */
+  /* No spacer gap — subtitle flows as one line, ball is below not between */
   .title-ball-spacer {
-    width: clamp(260px, 36vw, 440px);
+    width: 48px;
+    flex-shrink: 0;
   }
 
-  /* Ensure title font scales up enough to fill iPad width like desktop */
+  /* Large headline — bottom half overlaps into the ball top */
   .hero-title-main {
-    font-size: clamp(140px, 20vw, 420px);
+    font-size: clamp(170px, 24vw, 540px);
+  }
+
+  /* Bigger subtitle to match the headline scale */
+  .hero-title-sub {
+    font-size: clamp(40px, 6.5vw, 86px);
   }
 }
 

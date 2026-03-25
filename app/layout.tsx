@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { Bebas_Neue, Playfair_Display, Barlow_Condensed, DM_Sans, Instrument_Serif, Cormorant_Garamond, IM_Fell_English } from "next/font/google";
 import "./globals.css";
+import Loader from "./components/Loader";
+import GlowBG from "./components/GlowBG";
 
 const bebasNeue = Bebas_Neue({
   weight: "400",
@@ -61,6 +63,8 @@ export default function RootLayout({
       <body
         className={`${bebasNeue.variable} ${playfairDisplay.variable} ${barlowCondensed.variable} ${dmSans.variable} ${instrumentSerif.variable} ${cormorantGaramond.variable} ${imFellEnglish.variable}`}
       >
+        <Loader />
+        <GlowBG />
         <div id="cursor" />
         {children}
       </body>

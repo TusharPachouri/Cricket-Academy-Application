@@ -1,72 +1,25 @@
 "use client";
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
 import dynamic from "next/dynamic";
-import { motion, AnimatePresence, useScroll, useTransform, useSpring } from "framer-motion";
+import { motion, useScroll, useTransform } from "framer-motion";
 
 const CricketBall3D = dynamic(() => import("./CricketBall3D"), { ssr: false });
 
-const SunIcon = () => (
-  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-    <circle cx="12" cy="12" r="5"></circle>
-    <line x1="12" y1="1" x2="12" y2="3"></line>
-    <line x1="12" y1="21" x2="12" y2="23"></line>
-    <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
-    <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
-    <line x1="1" y1="12" x2="3" y2="12"></line>
-    <line x1="21" y1="12" x2="23" y2="12"></line>
-    <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
-    <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
-  </svg>
-);
-
-const MoonIcon = () => (
-  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-    <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
-  </svg>
-);
+import Navbar from "./Navbar";
 
 export default function HeroSection() {
-  const [menuOpen, setMenuOpen] = useState(false);
   const [isDark, setIsDark] = useState(true);
-  const [scrolled, setScrolled] = useState(false);
+
+  // Sync with persisted theme on mount
+  useEffect(() => {
+    const saved = localStorage.getItem("braj-theme");
+    if (saved !== null) setIsDark(saved === "dark");
+  }, []);
 
   // Scroll animation: ball moves down and fades out
   const { scrollY } = useScroll();
   const ballY = useTransform(scrollY, [0, 800], [0, 400]);
   const ballOpacity = useTransform(scrollY, [0, 600, 1000], [1, 1, 0]);
-
-  // Nav becomes glassy after scrolling 40px
-  useEffect(() => {
-    const unsub = scrollY.on("change", (v) => setScrolled(v > 40));
-    return unsub;
-  }, [scrollY]);
-
-  // 3D tilt on mouse move
-  const navRef = useRef<HTMLElement>(null);
-  const rawX = useRef(0);
-  const rawY = useRef(0);
-  const rotateX = useSpring(0, { stiffness: 200, damping: 28 });
-  const rotateY = useSpring(0, { stiffness: 200, damping: 28 });
-
-  const handleNavMouse = (e: React.MouseEvent) => {
-    if (!navRef.current) return;
-    const r = navRef.current.getBoundingClientRect();
-    rawX.current = ((e.clientX - r.left) / r.width - 0.5) * 6;
-    rawY.current = ((e.clientY - r.top) / r.height - 0.5) * -4;
-    rotateY.set(rawX.current);
-    rotateX.set(rawY.current);
-  };
-
-  const handleNavLeave = () => {
-    rotateX.set(0);
-    rotateY.set(0);
-  };
-
-  /* Hook to apply 'dark' class to html element globally */
-  useEffect(() => {
-    if (isDark) document.documentElement.classList.add("dark");
-    else document.documentElement.classList.remove("dark");
-  }, [isDark]);
 
   // Stagger variants array for features
   const containerVariants = {
@@ -83,99 +36,7 @@ export default function HeroSection() {
 
   return (
     <section className="hero-section">
-      {/* ── DESKTOP NAV (3D floating pill) ── */}
-      <motion.nav
-        ref={navRef as React.RefObject<HTMLElement>}
-        className={`hero-nav desktop-nav ${scrolled ? "nav-scrolled" : ""}`}
-        initial={{ y: -32, opacity: 0 }}
-        animate={{ y: 0, opacity: 1 }}
-        transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-        style={{ rotateX, rotateY, transformStyle: "preserve-3d", perspective: 800 }}
-        onMouseMove={handleNavMouse}
-        onMouseLeave={handleNavLeave}
-      >
-        {/* Logo — left */}
-        <a href="/" className="nav-logo">
-          <span className="nav-logo-mark">B</span>
-          <div className="nav-logo-text">
-            <span className="nav-logo-name">BRAJ.</span>
-            <span className="nav-logo-sub">Cricket Academy</span>
-          </div>
-        </a>
-
-        {/* Links + actions — right */}
-        <div className="nav-right">
-          <div className="nav-links">
-            {["Programs", "Coaches", "About", "Contact"].map((item) => (
-              <a key={item} href={`#${item.toLowerCase()}`} className="nav-link">
-                {item}
-                <span className="nav-link-line" />
-              </a>
-            ))}
-          </div>
-          <div className="nav-divider" />
-          <button className="mobile-theme-btn" onClick={() => setIsDark(!isDark)} aria-label="Toggle theme">
-            {isDark ? <SunIcon /> : <MoonIcon />}
-          </button>
-          <a href="#" className="nav-enroll"><span>Enroll Now →</span></a>
-        </div>
-      </motion.nav>
-
-      {/* ── MOBILE NAV (logo left · theme icon · hamburger right) ── */}
-      <div className="mobile-nav">
-        <a href="/" className="nav-logo">
-          <span className="nav-logo-mark">B</span>
-        </a>
-
-        <div className="mob-nav-actions">
-          {/* Standalone theme toggle — icon only, no text */}
-          <motion.button
-            className="mob-theme-icon-btn"
-            onClick={() => setIsDark(!isDark)}
-            whileTap={{ scale: 0.88 }}
-            aria-label="Toggle theme"
-          >
-            {isDark ? <SunIcon /> : <MoonIcon />}
-          </motion.button>
-
-          {/* Hamburger menu button */}
-          <motion.button
-            className="mob-menu-btn"
-            onClick={() => setMenuOpen(!menuOpen)}
-            whileTap={{ scale: 0.92 }}
-            aria-label="Open menu"
-          >
-            <span className={`hamburger-line ${menuOpen ? "open" : ""}`} />
-            <span className={`hamburger-line ${menuOpen ? "open" : ""}`} />
-            <span className={`hamburger-line ${menuOpen ? "open" : ""}`} />
-          </motion.button>
-        </div>
-      </div>
-
-      {/* Mobile dropdown menu */}
-      <AnimatePresence>
-        {menuOpen && (
-          <motion.div
-            className="mob-dropdown"
-            initial={{ opacity: 0, y: -12, scale: 0.96 }}
-            animate={{ opacity: 1, y: 0, scale: 1 }}
-            exit={{ opacity: 0, y: -8, scale: 0.97 }}
-            transition={{ duration: 0.28, ease: [0.16, 1, 0.3, 1] }}
-          >
-            {["Programs", "Coaches", "About", "Contact"].map((item) => (
-              <a key={item} href={`#${item.toLowerCase()}`} className="mob-link" onClick={() => setMenuOpen(false)}>
-                {item}
-              </a>
-            ))}
-            <div className="mob-dropdown-divider" />
-            <div className="mob-dropdown-footer">
-              <a href="#enroll" className="mob-enroll" onClick={() => setMenuOpen(false)}>
-                Enroll Now →
-              </a>
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
+      <Navbar isDark={isDark} setIsDark={setIsDark} />
 
       {/* HERO CONTENT */}
       <div className="hero-content">

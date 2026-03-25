@@ -1,6 +1,4 @@
 import Cursor from "./components/Cursor";
-import Loader from "./components/Loader";
-import GlowBG from "./components/GlowBG";
 import BentoStats from "./components/BentoStats";
 import Programs from "./components/Programs";
 import Coaches from "./components/Coaches";
@@ -15,8 +13,6 @@ import SectionFrame from "./components/SectionFrame";
 export default function Home() {
   return (
     <>
-      <Loader />
-      <GlowBG />
       <Cursor />
       <main>
         <HeroSection />

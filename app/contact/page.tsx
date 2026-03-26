@@ -107,7 +107,7 @@ export default function ContactPage() {
       const res = await fetch("/api/contact", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(form),
+        body: JSON.stringify({ ...form, _hp: "" }),
       });
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || "Something went wrong.");
@@ -136,23 +136,11 @@ export default function ContactPage() {
 
         {/* Page header */}
         <div className="contact-header">
-          <motion.p
-            className="contact-eyebrow"
-            initial={{ opacity: 0, y: 16 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.2 }}
-          >
-            Get in Touch
-          </motion.p>
-          <motion.h1
-            className="contact-title"
-            initial={{ opacity: 0, y: 24 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7, delay: 0.3 }}
-          >
+          <p className="contact-eyebrow">Get in Touch</p>
+          <h1 className="contact-title">
             Write to<br />
             <em>the Academy</em>
-          </motion.h1>
+          </h1>
         </div>
 
         {/* Main two-column section */}
@@ -309,6 +297,16 @@ export default function ContactPage() {
                       {errors.message && <span className="contact-field-error">{errors.message}</span>}
                     </div>
 
+                    {/* Task 5: Honeypot — hidden from humans, bots fill it, API silently rejects */}
+                    <input
+                      type="text"
+                      name="_hp"
+                      tabIndex={-1}
+                      autoComplete="off"
+                      aria-hidden="true"
+                      style={{ position: "absolute", left: "-9999px", width: 1, height: 1, opacity: 0 }}
+                    />
+
                     {status === "error" && (
                       <p className="contact-error">{errorMsg}</p>
                     )}
@@ -339,6 +337,10 @@ export default function ContactPage() {
 
       <style jsx global>{`
         /* ── Contact page ── */
+        @keyframes contactFadeUp {
+          from { opacity: 0; transform: translateY(20px); }
+          to   { opacity: 1; transform: translateY(0); }
+        }
         .contact-header {
           padding: 120px 5% 48px;
         }
@@ -350,6 +352,7 @@ export default function ContactPage() {
           text-transform: uppercase;
           opacity: 0.85;
           margin-bottom: 14px;
+          animation: contactFadeUp 0.6s ease 0.1s both;
         }
         .contact-title {
           font-family: var(--font-bebas), serif;
@@ -358,6 +361,7 @@ export default function ContactPage() {
           line-height: 1;
           letter-spacing: 0.01em;
           margin: 0;
+          animation: contactFadeUp 0.7s ease 0.2s both;
         }
         .contact-title em {
           font-style: italic;

@@ -1,11 +1,29 @@
 import { Resend } from "resend";
 import { NextRequest, NextResponse } from "next/server";
+import { rateLimit, getClientIp } from "@/lib/rateLimit";
 
 const resend = new Resend(process.env.RESEND_API_KEY);
 
 export async function POST(req: NextRequest) {
+  // Task 3: Rate limiting
+  const ip = getClientIp(req);
+  const { allowed, retryAfter } = rateLimit(`contact:${ip}`);
+  if (!allowed) {
+    return NextResponse.json(
+      { error: `Too many requests. Please try again in ${retryAfter} seconds.` },
+      { status: 429, headers: { "Retry-After": String(retryAfter) } }
+    );
+  }
+
   try {
-    const { firstName, lastName, email, phone, message } = await req.json();
+    const body = await req.json();
+    const { firstName, lastName, email, phone, message, _hp } = body;
+
+    // Task 5: Honeypot check — bots fill hidden fields, humans don't
+    if (_hp) {
+      // Silently return 200 to fool the bot
+      return NextResponse.json({ success: true });
+    }
 
     if (!firstName || !email || !message) {
       return NextResponse.json(
@@ -56,14 +74,15 @@ export async function POST(req: NextRequest) {
       `,
     });
 
+    // Task 7: Only log internally, never expose Resend error details to client
     if (error) {
       console.error("Resend error:", error);
-      return NextResponse.json({ error: "Failed to send email." }, { status: 500 });
+      return NextResponse.json({ error: "Failed to send message. Please try again." }, { status: 500 });
     }
 
     return NextResponse.json({ success: true, id: data?.id });
   } catch (err) {
     console.error("Contact API error:", err);
-    return NextResponse.json({ error: "Server error." }, { status: 500 });
+    return NextResponse.json({ error: "Something went wrong. Please try again." }, { status: 500 });
   }
 }

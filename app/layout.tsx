@@ -3,6 +3,7 @@ import { Bebas_Neue, Playfair_Display, Barlow_Condensed, DM_Sans, Instrument_Ser
 import "./globals.css";
 import Loader from "./components/Loader";
 import GlowBG from "./components/GlowBG";
+import Providers from "./components/Providers";
 
 const bebasNeue = Bebas_Neue({
   weight: "400",
@@ -63,10 +64,12 @@ export default function RootLayout({
       <body
         className={`${bebasNeue.variable} ${playfairDisplay.variable} ${barlowCondensed.variable} ${dmSans.variable} ${instrumentSerif.variable} ${cormorantGaramond.variable} ${imFellEnglish.variable}`}
       >
-        <Loader />
-        <GlowBG />
-        <div id="cursor" />
-        {children}
+        <Providers>
+          <Loader />
+          <GlowBG />
+          <div id="cursor" />
+          {children}
+        </Providers>
       </body>
     </html>
   );

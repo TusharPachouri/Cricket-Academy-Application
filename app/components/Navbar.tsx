@@ -122,6 +122,11 @@ export default function Navbar({ isDark: propIsDark, setIsDark: propSetIsDark }:
                 {link.name}<span className="nav-link-line" />
               </Link>
             ))}
+            {!user && (
+              <Link href="/login" className="nav-link">
+                Login<span className="nav-link-line" />
+              </Link>
+            )}
           </div>
           <div className="nav-divider" />
           <button className="mobile-theme-btn" onClick={() => setIsDark(!isDark)} aria-label="Toggle theme">
@@ -129,9 +134,7 @@ export default function Navbar({ isDark: propIsDark, setIsDark: propSetIsDark }:
           </button>
 
           {/* Auth button */}
-          {!user ? (
-            <Link href="/login" className="nav-enroll"><span>Login →</span></Link>
-          ) : (
+          {!user ? null : (
             <div className="nav-avatar-wrap" ref={avatarRef}>
               <motion.button
                 className="nav-avatar-btn"
@@ -218,6 +221,9 @@ export default function Navbar({ isDark: propIsDark, setIsDark: propSetIsDark }:
                 {link.name}
               </Link>
             ))}
+            {!user && (
+              <Link href="/login" className="mob-link" onClick={() => setMenuOpen(false)}>Login</Link>
+            )}
 
             {user && (
               <>
@@ -232,14 +238,9 @@ export default function Navbar({ isDark: propIsDark, setIsDark: propSetIsDark }:
             <div className="mob-dropdown-divider" />
             <div className="mob-dropdown-footer">
               {!user ? (
-                <>
-                  <Link href="/login" className="mob-enroll" style={{ background: "transparent", border: "1px solid rgba(201,168,76,0.35)", color: "var(--gold)" }} onClick={() => setMenuOpen(false)}>
-                    Login
-                  </Link>
-                  <Link href="/enroll" className="mob-enroll" onClick={() => setMenuOpen(false)}>
-                    Enroll Now →
-                  </Link>
-                </>
+                <Link href="/enroll" className="mob-enroll" onClick={() => setMenuOpen(false)}>
+                  Enroll Now →
+                </Link>
               ) : (
                 <button className="mob-enroll"
                   style={{ background: "rgba(224,92,92,0.12)", border: "1px solid rgba(224,92,92,0.3)", color: "#e05c5c", cursor: "pointer", width: "100%" }}

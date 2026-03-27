@@ -3,6 +3,7 @@ import { useState, useEffect, useCallback } from "react";
 import { useSession, signOut } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+import Cursor from "../components/Cursor";
 import {
   BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer,
 } from "recharts";
@@ -327,6 +328,7 @@ export default function DashboardPage() {
 
   return (
     <div className="dash-root">
+      <Cursor />
       {/* Sidebar */}
       <aside className="dash-sidebar">
         <Link href="/" className="dash-logo">

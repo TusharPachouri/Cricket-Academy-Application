@@ -4,6 +4,7 @@ import { useSession, signOut } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
+import Cursor from "../components/Cursor";
 
 type Enrollment = {
   _id: string;
@@ -118,6 +119,7 @@ export default function ProfilePage() {
 
   return (
     <div className="prof-root">
+      <Cursor />
       {/* Toast */}
       <AnimatePresence>
         {toast && (

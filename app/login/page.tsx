@@ -1,15 +1,13 @@
 "use client";
 import { useState, Suspense } from "react";
 import { signIn } from "next-auth/react";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
 import Link from "next/link";
 
 function LoginForm() {
   const router = useRouter();
-  const params = useSearchParams();
-  const from = params.get("from");
-  const [form, setForm] = useState({ email: "", password: "" });
+const [form, setForm] = useState({ email: "", password: "" });
   const [errors, setErrors] = useState<{ email?: string; password?: string; general?: string }>({});
   const [loading, setLoading] = useState(false);
   const [googleLoading, setGoogleLoading] = useState(false);
@@ -45,12 +43,12 @@ function LoginForm() {
     const sessionRes = await fetch("/api/auth/session");
     const session = await sessionRes.json();
     if (session?.user?.role === "admin") router.push("/dashboard");
-    else router.push(from === "dashboard" ? "/" : "/profile");
+    else router.push("/");
   };
 
   const handleGoogle = async () => {
     setGoogleLoading(true);
-    await signIn("google", { callbackUrl: from === "dashboard" ? "/dashboard" : "/profile" });
+    await signIn("google", { callbackUrl: "/" });
   };
 
   return (

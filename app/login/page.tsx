@@ -4,6 +4,7 @@ import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
 import Link from "next/link";
+import Cursor from "../components/Cursor";
 
 function LoginForm() {
   const router = useRouter();
@@ -53,6 +54,7 @@ const [form, setForm] = useState({ email: "", password: "" });
 
   return (
     <div className="auth-page">
+      <Cursor />
       <div className="auth-card">
         {/* Logo */}
         <Link href="/" className="auth-logo">

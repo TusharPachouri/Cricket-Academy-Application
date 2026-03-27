@@ -84,6 +84,7 @@ export default function Navbar({ isDark: propIsDark, setIsDark: propSetIsDark }:
   const handleNavLeave = () => { rotateX.set(0); rotateY.set(0); };
 
   const navLinks = [
+    { name: "Home", href: "/" },
     { name: "Programs", href: "/programs" },
     { name: "Coaches", href: "/#coaches" },
     { name: "About", href: "/#about" },

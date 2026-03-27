@@ -4,6 +4,7 @@ import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
 import Link from "next/link";
+import Cursor from "../components/Cursor";
 
 type FormData = { firstName: string; lastName: string; email: string; phone: string; password: string; confirm: string };
 type FormErrors = Partial<Record<keyof FormData, string>>;
@@ -73,20 +74,9 @@ export default function RegisterPage() {
     }
   };
 
-  const Field = ({ name, label, type = "text", placeholder }: { name: keyof FormData; label: string; type?: string; placeholder?: string }) => (
-    <div className="auth-field">
-      <label className="auth-label">{label}</label>
-      <input
-        className={`auth-input${errors[name] ? " auth-input--err" : ""}`}
-        type={type} name={name} placeholder={placeholder}
-        value={form[name]} onChange={handleChange} onBlur={handleBlur}
-      />
-      {errors[name] && <span className="auth-field-error">{errors[name]}</span>}
-    </div>
-  );
-
   return (
     <div className="auth-page">
+      <Cursor />
       <div className="auth-card" style={{ maxWidth: 480 }}>
         <Link href="/" className="auth-logo">
           <div className="auth-logo-mark">B</div>
@@ -124,13 +114,37 @@ export default function RegisterPage() {
           {generalError && <p className="auth-error-banner">{generalError}</p>}
 
           <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 14 }}>
-            <Field name="firstName" label="First Name" placeholder="Virat" />
-            <Field name="lastName" label="Last Name" placeholder="Kohli" />
+            <div className="auth-field">
+              <label className="auth-label">First Name</label>
+              <input className={`auth-input${errors.firstName ? " auth-input--err" : ""}`} name="firstName" placeholder="Virat" value={form.firstName} onChange={handleChange} onBlur={handleBlur} />
+              {errors.firstName && <span className="auth-field-error">{errors.firstName}</span>}
+            </div>
+            <div className="auth-field">
+              <label className="auth-label">Last Name</label>
+              <input className={`auth-input${errors.lastName ? " auth-input--err" : ""}`} name="lastName" placeholder="Kohli" value={form.lastName} onChange={handleChange} onBlur={handleBlur} />
+              {errors.lastName && <span className="auth-field-error">{errors.lastName}</span>}
+            </div>
           </div>
-          <Field name="email" label="Email" type="email" placeholder="you@example.com" />
-          <Field name="phone" label="Phone (optional)" type="tel" placeholder="+91 98765 43210" />
-          <Field name="password" label="Password" type="password" placeholder="Min 8 chars + number" />
-          <Field name="confirm" label="Confirm Password" type="password" placeholder="••••••••" />
+          <div className="auth-field">
+            <label className="auth-label">Email</label>
+            <input className={`auth-input${errors.email ? " auth-input--err" : ""}`} type="email" name="email" placeholder="you@example.com" value={form.email} onChange={handleChange} onBlur={handleBlur} />
+            {errors.email && <span className="auth-field-error">{errors.email}</span>}
+          </div>
+          <div className="auth-field">
+            <label className="auth-label">Phone (optional)</label>
+            <input className={`auth-input${errors.phone ? " auth-input--err" : ""}`} type="tel" name="phone" placeholder="+91 98765 43210" value={form.phone} onChange={handleChange} onBlur={handleBlur} />
+            {errors.phone && <span className="auth-field-error">{errors.phone}</span>}
+          </div>
+          <div className="auth-field">
+            <label className="auth-label">Password</label>
+            <input className={`auth-input${errors.password ? " auth-input--err" : ""}`} type="password" name="password" placeholder="Min 8 chars + number" value={form.password} onChange={handleChange} onBlur={handleBlur} />
+            {errors.password && <span className="auth-field-error">{errors.password}</span>}
+          </div>
+          <div className="auth-field">
+            <label className="auth-label">Confirm Password</label>
+            <input className={`auth-input${errors.confirm ? " auth-input--err" : ""}`} type="password" name="confirm" placeholder="••••••••" value={form.confirm} onChange={handleChange} onBlur={handleBlur} />
+            {errors.confirm && <span className="auth-field-error">{errors.confirm}</span>}
+          </div>
 
           <motion.button type="submit" className="auth-submit-btn" disabled={loading} whileTap={{ scale: 0.97 }}>
             {loading ? <span className="auth-spinner" /> : "Create Account →"}

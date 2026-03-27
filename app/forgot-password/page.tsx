@@ -2,6 +2,7 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
 import Link from "next/link";
+import Cursor from "../components/Cursor";
 import { useRouter } from "next/navigation";
 
 export default function ForgotPasswordPage() {
@@ -55,6 +56,7 @@ export default function ForgotPasswordPage() {
 
   return (
     <div className="auth-page">
+      <Cursor />
       <div className="auth-card">
         <Link href="/" className="auth-logo">
           <div className="auth-logo-mark">B</div>

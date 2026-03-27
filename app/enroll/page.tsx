@@ -9,20 +9,6 @@ import SectionFrame from "../components/SectionFrame";
 /* ─── Package definitions ─────────────────────────────────── */
 const packages = [
   {
-    id: "test",
-    badge: "Test",
-    name: "Test Package",
-    subtitle: "1 Rupee · Testing only",
-    price: 1,
-    period: "/ once",
-    color: "#888888",
-    features: [
-      "For testing Razorpay integration",
-      "Will be removed after verification",
-    ],
-    cta: "Test Payment",
-  },
-  {
     id: "junior",
     badge: "Starter",
     name: "Junior Batch",
@@ -154,6 +140,18 @@ export default function EnrollPage() {
   const [payStatus, setPayStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
   const [payError, setPayError] = useState("");
 
+  // Auto-select package from ?package= query param
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const pkgParam = params.get("package");
+    if (pkgParam && packages.some((p) => p.id === pkgParam)) {
+      setSelectedPkg(pkgParam);
+      setTimeout(() => {
+        document.getElementById("enroll-form-section")?.scrollIntoView({ behavior: "smooth", block: "start" });
+      }, 300);
+    }
+  }, []);
+
   // Sync selected package to form
   useEffect(() => {
     if (selectedPkg) {
@@ -249,6 +247,14 @@ export default function EnrollPage() {
                 paymentId: response.razorpay_payment_id,
                 orderId: response.razorpay_order_id,
                 expectedAmount: pkg?.price,
+                notes: {
+                  name: `${form.firstName} ${form.lastName}`,
+                  email: form.email,
+                  phone: form.phone,
+                  age: form.age,
+                  package: pkg?.name,
+                  packageId: pkg?.id,
+                },
               }),
             });
             const verifyData = await verifyRes.json();
@@ -359,7 +365,7 @@ export default function EnrollPage() {
 
         {/* Enrollment Form */}
         <SectionFrame>
-          <div className="enroll-form-section">
+          <div id="enroll-form-section" className="enroll-form-section">
             <div className="enroll-form-left">
               <h2 className="enroll-form-heading">Your Details</h2>
               <p className="enroll-form-desc">

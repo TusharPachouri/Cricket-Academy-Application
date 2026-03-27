@@ -53,12 +53,7 @@ const [form, setForm] = useState({ email: "", password: "" });
 
   return (
     <div className="auth-page">
-      <motion.div
-        className="auth-card"
-        initial={{ opacity: 0, y: 28 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.55, ease: [0.16, 1, 0.3, 1] }}
-      >
+      <div className="auth-card">
         {/* Logo */}
         <Link href="/" className="auth-logo">
           <div className="auth-logo-mark">B</div>
@@ -137,7 +132,7 @@ const [form, setForm] = useState({ email: "", password: "" });
         </p>
 
         <Link href="/" className="auth-back">← Back to home</Link>
-      </motion.div>
+      </div>
 
       <style>{`
         .auth-page {
@@ -151,8 +146,8 @@ const [form, setForm] = useState({ email: "", password: "" });
         .auth-card {
           width: 100%;
           max-width: 420px;
-          background: rgba(255,255,255,0.04);
-          border: 1px solid rgba(201,168,76,0.18);
+          background: #161A22;
+          border: 1px solid rgba(201,168,76,0.22);
           border-radius: 24px;
           padding: 40px 36px;
           display: flex;
@@ -160,7 +155,7 @@ const [form, setForm] = useState({ email: "", password: "" });
           gap: 0;
         }
         html:not(.dark) .auth-card {
-          background: rgba(255,255,255,0.8);
+          background: #ffffff;
           border-color: rgba(201,168,76,0.25);
           box-shadow: 0 8px 40px rgba(0,0,0,0.08);
         }
@@ -217,17 +212,17 @@ const [form, setForm] = useState({ email: "", password: "" });
           width: 100%;
           padding: 11px 16px;
           border-radius: 12px;
-          background: rgba(255,255,255,0.06);
-          border: 1px solid rgba(201,168,76,0.2);
-          color: var(--dark);
+          background: rgba(255,255,255,0.09);
+          border: 1px solid rgba(201,168,76,0.35);
+          color: #F2EFE4;
           font-family: var(--font-dm), sans-serif;
           font-size: 13.5px;
           font-weight: 500;
           cursor: pointer;
           transition: background 0.2s, border-color 0.2s;
         }
-        html:not(.dark) .auth-google-btn { background: #fff; border-color: #e0d8c8; }
-        .auth-google-btn:hover { background: rgba(255,255,255,0.1); border-color: rgba(201,168,76,0.4); }
+        html:not(.dark) .auth-google-btn { background: #fff; border-color: #e0d8c8; color: #1a1209; }
+        .auth-google-btn:hover { background: rgba(255,255,255,0.14); border-color: rgba(201,168,76,0.5); }
         html:not(.dark) .auth-google-btn:hover { background: #f9f7f2; }
         .auth-google-btn:disabled { opacity: 0.6; cursor: not-allowed; }
         .auth-divider {
@@ -245,14 +240,14 @@ const [form, setForm] = useState({ email: "", password: "" });
         }
         .auth-divider span {
           position: relative;
-          background: var(--page-bg);
+          background: #161A22;
           padding: 0 12px;
           font-family: var(--font-dm), sans-serif;
           font-size: 11px;
-          color: var(--dark);
+          color: #F2EFE4;
           opacity: 0.4;
         }
-        html:not(.dark) .auth-divider span { background: rgba(255,255,255,0.8); }
+        html:not(.dark) .auth-divider span { background: #ffffff; color: #1a1209; }
         .auth-form { display: flex; flex-direction: column; gap: 16px; }
         .auth-error-banner {
           background: rgba(224,92,92,0.1);
@@ -284,20 +279,22 @@ const [form, setForm] = useState({ email: "", password: "" });
         }
         .auth-forgot:hover { opacity: 1; }
         .auth-input {
-          background: rgba(255,255,255,0.05);
-          border: 1px solid rgba(201,168,76,0.2);
+          background: rgba(255,255,255,0.07);
+          border: 1px solid rgba(201,168,76,0.35);
           border-radius: 10px;
           padding: 11px 14px;
           font-family: var(--font-dm), sans-serif;
           font-size: 13.5px;
-          color: var(--dark);
+          color: #F2EFE4;
           outline: none;
           transition: border-color 0.2s;
           width: 100%;
           box-sizing: border-box;
         }
+        .auth-input::placeholder { color: rgba(242,239,228,0.35); }
         html:not(.dark) .auth-input { background: #faf8f3; border-color: rgba(201,168,76,0.28); color: #1a1209; }
-        .auth-input:focus { border-color: rgba(197,160,89,0.55); }
+        html:not(.dark) .auth-input::placeholder { color: rgba(26,18,9,0.35); }
+        .auth-input:focus { border-color: rgba(197,160,89,0.65); background: rgba(255,255,255,0.1); }
         html:not(.dark) .auth-input:focus { background: #fff; border-color: rgba(197,160,89,0.6); }
         .auth-input--err { border-color: rgba(224,92,92,0.6) !important; }
         .auth-field-error { font-family: var(--font-dm), sans-serif; font-size: 11px; color: #e05c5c; }
@@ -351,6 +348,8 @@ const [form, setForm] = useState({ email: "", password: "" });
           transition: opacity 0.2s;
         }
         .auth-back:hover { opacity: 0.7; }
+        .auth-card { animation: authFadeIn 0.45s ease both; }
+        @keyframes authFadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: none; } }
         @media (max-width: 480px) {
           .auth-card { padding: 28px 20px; border-radius: 18px; }
         }

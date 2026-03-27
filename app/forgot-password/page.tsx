@@ -55,12 +55,7 @@ export default function ForgotPasswordPage() {
 
   return (
     <div className="auth-page">
-      <motion.div
-        className="auth-card"
-        initial={{ opacity: 0, y: 28 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.55, ease: [0.16, 1, 0.3, 1] }}
-      >
+      <div className="auth-card">
         <Link href="/" className="auth-logo">
           <div className="auth-logo-mark">B</div>
           <div><div className="auth-logo-name">BRAJ.</div><div className="auth-logo-sub">Cricket Academy</div></div>
@@ -139,12 +134,12 @@ export default function ForgotPasswordPage() {
         )}
 
         <Link href="/login" className="auth-back" style={{ marginTop: 20 }}>← Back to login</Link>
-      </motion.div>
+      </div>
 
       <style>{`
         .auth-page{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:24px 16px;background:var(--page-bg);}
-        .auth-card{width:100%;max-width:420px;background:rgba(255,255,255,0.04);border:1px solid rgba(201,168,76,0.18);border-radius:24px;padding:40px 36px;display:flex;flex-direction:column;gap:0;}
-        html:not(.dark) .auth-card{background:rgba(255,255,255,0.8);border-color:rgba(201,168,76,0.25);box-shadow:0 8px 40px rgba(0,0,0,0.08);}
+        .auth-card{width:100%;max-width:420px;background:#161A22;border:1px solid rgba(201,168,76,0.22);border-radius:24px;padding:40px 36px;display:flex;flex-direction:column;gap:0;}
+        html:not(.dark) .auth-card{background:#ffffff;border-color:rgba(201,168,76,0.25);box-shadow:0 8px 40px rgba(0,0,0,0.08);}
         .auth-logo{display:flex;align-items:center;gap:10px;text-decoration:none;margin-bottom:24px;}
         .auth-logo-mark{width:38px;height:38px;background:var(--gold);border-radius:10px;display:flex;align-items:center;justify-content:center;font-family:var(--font-bebas),serif;font-size:22px;color:#0D1117;}
         .auth-logo-name{font-family:var(--font-bebas),serif;font-size:18px;color:var(--dark);letter-spacing:0.05em;line-height:1;}
@@ -155,14 +150,18 @@ export default function ForgotPasswordPage() {
         .auth-form{display:flex;flex-direction:column;gap:16px;}
         .auth-field{display:flex;flex-direction:column;gap:6px;}
         .auth-label{font-family:var(--font-dm),sans-serif;font-size:10px;letter-spacing:0.16em;text-transform:uppercase;color:var(--gold);opacity:0.8;}
-        .auth-input{background:rgba(255,255,255,0.05);border:1px solid rgba(201,168,76,0.2);border-radius:10px;padding:11px 14px;font-family:var(--font-dm),sans-serif;font-size:13.5px;color:var(--dark);outline:none;transition:border-color 0.2s;width:100%;box-sizing:border-box;}
+        .auth-input{background:rgba(255,255,255,0.07);border:1px solid rgba(201,168,76,0.35);border-radius:10px;padding:11px 14px;font-family:var(--font-dm),sans-serif;font-size:13.5px;color:#F2EFE4;outline:none;transition:border-color 0.2s;width:100%;box-sizing:border-box;}
+        .auth-input::placeholder{color:rgba(242,239,228,0.35);}
         html:not(.dark) .auth-input{background:#faf8f3;border-color:rgba(201,168,76,0.28);color:#1a1209;}
-        .auth-input:focus{border-color:rgba(197,160,89,0.55);}
+        html:not(.dark) .auth-input::placeholder{color:rgba(26,18,9,0.35);}
+        .auth-input:focus{border-color:rgba(197,160,89,0.65);background:rgba(255,255,255,0.1);}
         .auth-submit-btn{width:100%;padding:13px;border-radius:12px;background:var(--gold);border:none;color:#0D1117;font-family:var(--font-dm),sans-serif;font-size:14px;font-weight:700;letter-spacing:0.05em;cursor:pointer;transition:opacity 0.2s;display:flex;align-items:center;justify-content:center;}
         .auth-submit-btn:hover{opacity:0.88;}
         .auth-submit-btn:disabled{opacity:0.55;cursor:not-allowed;}
         .auth-spinner{width:18px;height:18px;border:2px solid rgba(13,17,23,0.3);border-top-color:#0D1117;border-radius:50%;animation:spin 0.7s linear infinite;}
         @keyframes spin{to{transform:rotate(360deg);}}
+        .auth-card{animation:authFadeIn 0.45s ease both;}
+        @keyframes authFadeIn{from{opacity:0;transform:translateY(20px);}to{opacity:1;transform:none;}}
         .auth-back{font-family:var(--font-dm),sans-serif;font-size:12px;color:var(--dark);opacity:0.35;text-decoration:none;text-align:center;display:block;transition:opacity 0.2s;}
         .auth-back:hover{opacity:0.7;}
       `}</style>

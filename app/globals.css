@@ -3,6 +3,8 @@
 @tailwind utilities;
 
 :root {
+  color-scheme: dark light;
+
   /* ── Custom Provided Palette ── */
   --gold:         #C5A059;   /* Secondary/Tertiary Gold */
   --maroon:       #7B1C2A;   /* Cricket ball deep red */
@@ -29,6 +31,7 @@
 }
 
 html.dark {
+  color-scheme: dark;
   --page-bg:      #0D1117;   /* Primary Dark Slate */
   --cream:        #161A22;   /* Elevated Slate for components */
   --dark:         #F2EFE4;   /* Neutral Cream for text */

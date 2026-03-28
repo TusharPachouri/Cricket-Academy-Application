@@ -98,6 +98,8 @@ export default async function CoachesPage() {
 
           .coaches-hero-section {
             padding: 128px 7% 56px;
+            position: relative;
+            z-index: 10;
           }
           .coaches-grid-section {
             padding: 48px 7% 72px;

@@ -652,13 +652,14 @@ export default function DashboardPage() {
       )}
 
       <style>{`
-        .dash-root { display:flex; min-height:100vh; background:var(--page-bg); font-family:var(--font-dm),sans-serif; }
+        .dash-root { display:flex; min-height:100vh; background:var(--page-bg); font-family:var(--font-dm),sans-serif; position:relative; z-index:1; }
 
         /* Sidebar */
         .dash-sidebar {
           width:200px; flex-shrink:0;
           background:rgba(255,255,255,0.03);
           border-right:1px solid rgba(201,168,76,0.15);
+          position:relative; z-index:10;
           display:flex; flex-direction:column;
           padding:24px 16px; gap:0;
           position:sticky; top:0; height:100vh;
@@ -682,7 +683,7 @@ export default function DashboardPage() {
         .dash-signout:hover { background:rgba(239,68,68,0.18); }
 
         /* Main */
-        .dash-main { flex:1; overflow-x:hidden; padding:28px 32px; display:flex; flex-direction:column; gap:24px; min-width:0; }
+        .dash-main { flex:1; overflow-x:hidden; padding:28px 32px; display:flex; flex-direction:column; gap:24px; min-width:0; position:relative; z-index:10; }
         .dash-header { display:flex; justify-content:space-between; align-items:flex-start; }
         .dash-title { font-family:var(--font-bebas),serif; font-size:36px; color:var(--dark); letter-spacing:0.02em; margin:0 0 3px; line-height:1; }
         .dash-subtitle { font-size:13px; color:var(--dark); opacity:0.4; margin:0; }

@@ -227,17 +227,17 @@ export default function ProfilePage() {
           {/* Quick stats */}
           <div className="prof-quick-stats">
             <div className="prof-qs-item">
-              <span className="prof-qs-val">{paidEnrollments.length}</span>
+              <span className="prof-qs-val" style={{ color: "#C5A059", fontSize: 26, fontWeight: 700, lineHeight: 1 }}>{paidEnrollments.length}</span>
               <span className="prof-qs-label">Active Plans</span>
             </div>
             <div className="prof-qs-divider" />
             <div className="prof-qs-item">
-              <span className="prof-qs-val">₹{totalSpent.toLocaleString("en-IN")}</span>
+              <span className="prof-qs-val" style={{ color: "#C5A059", fontSize: 26, fontWeight: 700, lineHeight: 1 }}>₹{totalSpent.toLocaleString("en-IN")}</span>
               <span className="prof-qs-label">Total Paid</span>
             </div>
             <div className="prof-qs-divider" />
             <div className="prof-qs-item">
-              <span className="prof-qs-val">{enrollments.length}</span>
+              <span className="prof-qs-val" style={{ color: "#C5A059", fontSize: 26, fontWeight: 700, lineHeight: 1 }}>{enrollments.length}</span>
               <span className="prof-qs-label">All Orders</span>
             </div>
           </div>
@@ -370,6 +370,8 @@ export default function ProfilePage() {
           min-height: 100vh;
           background: var(--page-bg);
           font-family: var(--font-dm), sans-serif;
+          position: relative;
+          z-index: 1;
         }
 
         /* Toast */
@@ -445,6 +447,8 @@ export default function ProfilePage() {
           max-width: 720px;
           margin: 0 auto;
           padding: 36px 20px 60px;
+          position: relative;
+          z-index: 10;
           display: flex;
           flex-direction: column;
           gap: 28px;
@@ -479,8 +483,10 @@ export default function ProfilePage() {
         .prof-avatar-img { width: 100%; height: 100%; object-fit: cover; }
         .prof-avatar-initials { font-family: var(--font-bebas), serif; font-size: 26px; color: #0D1117; }
         .prof-info { flex: 1; min-width: 0; }
-        .prof-name { font-family: var(--font-bebas), serif; font-size: 24px; color: var(--dark); margin: 0 0 3px; letter-spacing: 0.02em; }
-        .prof-email { font-size: 13px; color: var(--dark); opacity: 0.45; margin: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .prof-name { font-family: var(--font-bebas), serif; font-size: 24px; color: #F2EFE4; margin: 0 0 3px; letter-spacing: 0.02em; }
+        html:not(.dark) .prof-name { color: #1a1209; }
+        .prof-email { font-size: 13px; color: rgba(242,239,228,0.5); margin: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        html:not(.dark) .prof-email { color: rgba(26,18,9,0.5); }
 
         .prof-edit-btn {
           padding: 7px 14px;

@@ -101,6 +101,7 @@ export default function ProgramsPage() {
             initial={{ opacity: 0, y: 32 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
+            style={{ position: "relative", zIndex: 10 }}
           >
             <p className="trn-eyebrow">Tournaments</p>
             <h1 className="trn-page-title">
@@ -295,6 +296,8 @@ export default function ProgramsPage() {
         /* ── Header ── */
         .trn-header {
           padding: 128px 5% 48px;
+          position: relative;
+          z-index: 10;
         }
         .trn-eyebrow {
           font-family: var(--font-dm), sans-serif;
@@ -308,11 +311,12 @@ export default function ProgramsPage() {
         .trn-page-title {
           font-family: var(--font-bebas), serif;
           font-size: clamp(56px, 8vw, 120px);
-          color: var(--dark);
+          color: #F2EFE4;
           line-height: 1;
           margin: 0 0 20px;
           letter-spacing: 0.01em;
         }
+        html:not(.dark) .trn-page-title { color: #1a1209; }
         .trn-page-title em {
           color: var(--gold);
           font-style: italic;
@@ -320,11 +324,11 @@ export default function ProgramsPage() {
         .trn-page-subtitle {
           font-family: var(--font-dm), sans-serif;
           font-size: clamp(14px, 1.2vw, 17px);
-          color: var(--dark);
-          opacity: 0.55;
+          color: rgba(242,239,228,0.55);
           max-width: 560px;
           line-height: 1.7;
         }
+        html:not(.dark) .trn-page-subtitle { color: rgba(26,18,9,0.6); }
 
         /* ── Main tournament card ── */
         .trn-main-wrap {

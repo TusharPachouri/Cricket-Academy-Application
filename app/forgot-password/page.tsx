@@ -1,9 +1,11 @@
 "use client";
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import { motion } from "framer-motion";
 import Link from "next/link";
 import Cursor from "../components/Cursor";
 import { useRouter } from "next/navigation";
+
+const OTP_VALIDITY = 60; // seconds
 
 export default function ForgotPasswordPage() {
   const router = useRouter();
@@ -15,6 +17,27 @@ export default function ForgotPasswordPage() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [success, setSuccess] = useState(false);
+  const [countdown, setCountdown] = useState(0);
+  const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
+
+  // Start / clear countdown whenever step changes to "otp"
+  useEffect(() => {
+    if (step === "otp") {
+      setCountdown(OTP_VALIDITY);
+      timerRef.current = setInterval(() => {
+        setCountdown(prev => {
+          if (prev <= 1) {
+            clearInterval(timerRef.current!);
+            return 0;
+          }
+          return prev - 1;
+        });
+      }, 1000);
+    } else {
+      if (timerRef.current) clearInterval(timerRef.current);
+    }
+    return () => { if (timerRef.current) clearInterval(timerRef.current); };
+  }, [step]);
 
   const sendOtp = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -28,13 +51,35 @@ export default function ForgotPasswordPage() {
     });
     setLoading(false);
     if (!res.ok) { const d = await res.json(); setError(d.error); return; }
+    setOtp("");
     setStep("otp");
   };
 
-  const verifyOtp = (e: React.FormEvent) => {
+  const resendOtp = async () => {
+    setError("");
+    setLoading(true);
+    const res = await fetch("/api/auth/forgot-password", {
+      method: "POST", headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ email }),
+    });
+    setLoading(false);
+    if (!res.ok) { const d = await res.json(); setError(d.error); return; }
+    setOtp("");
+    setStep("email");
+    setTimeout(() => setStep("otp"), 0);
+  };
+
+  const verifyOtp = async (e: React.FormEvent) => {
     e.preventDefault();
     if (otp.length !== 6) { setError("Enter the 6-digit OTP."); return; }
-    setError(""); setStep("reset");
+    setLoading(true); setError("");
+    const res = await fetch("/api/auth/verify-otp", {
+      method: "POST", headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ email, otp }),
+    });
+    setLoading(false);
+    if (!res.ok) { const d = await res.json(); setError(d.error); return; }
+    setStep("reset");
   };
 
   const resetPassword = async (e: React.FormEvent) => {
@@ -76,7 +121,7 @@ export default function ForgotPasswordPage() {
             </h1>
             <p className="auth-subheading">
               {step === "email" && "Enter your email and we'll send a 6-digit OTP."}
-              {step === "otp" && `OTP sent to ${email}. Check your inbox.`}
+              {step === "otp" && `OTP sent to your admin inbox. Valid for 1 minute.`}
               {step === "reset" && "Choose a strong new password."}
             </p>
 
@@ -102,11 +147,48 @@ export default function ForgotPasswordPage() {
                   <input className="auth-input" type="text" inputMode="numeric"
                     maxLength={6} placeholder="______"
                     value={otp} onChange={e => setOtp(e.target.value.replace(/\D/g, ""))}
+                    disabled={countdown === 0}
                     style={{ letterSpacing: "0.3em", fontSize: 22, textAlign: "center" }} />
                 </div>
-                <motion.button type="submit" className="auth-submit-btn" whileTap={{ scale: 0.97 }}>
-                  Verify OTP →
-                </motion.button>
+
+                {/* Countdown ring */}
+                <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 6 }}>
+                  {countdown > 0 ? (
+                    <>
+                      <div style={{
+                        width: 52, height: 52, borderRadius: "50%",
+                        border: `3px solid rgba(201,168,76,0.2)`,
+                        borderTopColor: countdown > 10 ? "#C5A059" : "#e05c5c",
+                        display: "flex", alignItems: "center", justifyContent: "center",
+                        fontSize: 16, fontWeight: 700,
+                        color: countdown > 10 ? "#C5A059" : "#e05c5c",
+                        transition: "border-top-color 0.3s",
+                        animation: "spin 1s linear infinite",
+                      }}>
+                        {countdown}
+                      </div>
+                      <p style={{ fontSize: 11, opacity: 0.45, margin: 0, fontFamily: "var(--font-dm, sans-serif)" }}>
+                        OTP expires in {countdown}s
+                      </p>
+                    </>
+                  ) : (
+                    <div style={{ textAlign: "center" }}>
+                      <p style={{ fontSize: 13, color: "#e05c5c", margin: "0 0 10px", fontFamily: "var(--font-dm, sans-serif)" }}>
+                        OTP expired.
+                      </p>
+                      <motion.button type="button" className="auth-submit-btn"
+                        onClick={resendOtp} disabled={loading} whileTap={{ scale: 0.97 }}>
+                        {loading ? <span className="auth-spinner" /> : "Resend OTP →"}
+                      </motion.button>
+                    </div>
+                  )}
+                </div>
+
+                {countdown > 0 && (
+                  <motion.button type="submit" className="auth-submit-btn" disabled={loading} whileTap={{ scale: 0.97 }}>
+                    {loading ? <span className="auth-spinner" /> : "Verify OTP →"}
+                  </motion.button>
+                )}
                 <button type="button" className="auth-back"
                   onClick={() => { setStep("email"); setError(""); }}
                   style={{ background: "none", border: "none", cursor: "pointer" }}>

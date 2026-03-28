@@ -55,15 +55,24 @@ export default function HeroSection() {
           </div>
         </motion.h1>
 
-        {/* 3D Ball Layer */}
+        {/* 3D Ball Layer — drop from above into rest position */}
+        {/* Outer: entry bounce (transforms visual position only, CSS layout unaffected) */}
         <motion.div
-          className="hero-ball-wrap"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 1, delay: 0.1, ease: "easeOut" }}
-          style={{ y: ballY, opacity: ballOpacity }}
+          initial={{ y: -480, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          transition={{
+            y: { type: "spring", stiffness: 32, damping: 8, mass: 2.2, delay: 0.15 },
+            opacity: { duration: 0.25, ease: "easeOut", delay: 0.15 },
+          }}
+          style={{ position: "absolute", inset: 0, pointerEvents: "none", zIndex: 3 }}
         >
-          <CricketBall3D isDark={isDark} />
+          {/* Inner: CSS positions ball correctly + scroll parallax */}
+          <motion.div
+            className="hero-ball-wrap"
+            style={{ y: ballY, opacity: ballOpacity, position: "absolute" }}
+          >
+            <CricketBall3D isDark={isDark} />
+          </motion.div>
         </motion.div>
 
         {/* GIANT TITLE (Outlined Foreground Layer) */}

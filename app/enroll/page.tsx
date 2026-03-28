@@ -567,6 +567,7 @@ export default function EnrollPage() {
             margin-bottom: 14px;
             animation: enrollFadeUp 0.6s ease 0.1s both;
           }
+          html:not(.dark) .enroll-eyebrow { color: #7a5c1e; opacity: 1; }
           .enroll-title {
             font-family: var(--font-bebas), serif;
             font-size: clamp(52px, 8vw, 110px);
@@ -620,11 +621,22 @@ export default function EnrollPage() {
             box-shadow: 0 0 0 2px var(--pkg-color), 0 12px 40px rgba(0,0,0,0.25) !important;
           }
           html:not(.dark) .enroll-pkg-card {
-            background: rgba(255,255,255,0.7);
-            border-color: rgba(201,168,76,0.2);
+            background: #fff;
+            border-color: rgba(0,0,0,0.1);
+            box-shadow: 0 2px 12px rgba(0,0,0,0.07);
+          }
+          html:not(.dark) .enroll-pkg-card:hover {
+            border-color: rgba(201,168,76,0.45);
+            box-shadow: 0 8px 32px rgba(0,0,0,0.12);
           }
           html:not(.dark) .enroll-pkg-card--highlight {
-            background: rgba(197,160,89,0.08);
+            background: #fff;
+            border-color: rgba(201,168,76,0.45);
+            box-shadow: 0 0 0 1.5px rgba(201,168,76,0.35), 0 8px 32px rgba(0,0,0,0.1);
+          }
+          html:not(.dark) .enroll-pkg-card--selected {
+            border-color: var(--pkg-color) !important;
+            box-shadow: 0 0 0 2px var(--pkg-color), 0 12px 40px rgba(0,0,0,0.12) !important;
           }
 
           .enroll-pkg-top {
@@ -640,10 +652,14 @@ export default function EnrollPage() {
             letter-spacing: 0.18em;
             text-transform: uppercase;
             color: var(--pkg-color);
-            background: rgba(from var(--pkg-color) r g b / 0.12);
-            border: 1px solid rgba(from var(--pkg-color) r g b / 0.2);
+            background: color-mix(in srgb, var(--pkg-color) 14%, transparent);
+            border: 1px solid color-mix(in srgb, var(--pkg-color) 28%, transparent);
             padding: 3px 9px;
             border-radius: 20px;
+          }
+          html:not(.dark) .enroll-pkg-badge {
+            background: color-mix(in srgb, var(--pkg-color) 10%, #fff);
+            border-color: color-mix(in srgb, var(--pkg-color) 30%, transparent);
           }
           .enroll-pkg-popular {
             font-family: var(--font-dm), sans-serif;
@@ -710,6 +726,11 @@ export default function EnrollPage() {
             align-items: center;
             gap: 8px;
           }
+          html:not(.dark) .enroll-pkg-feature { opacity: 0.85; color: #2a2118; }
+          html:not(.dark) .enroll-pkg-name { color: #1a1209; }
+          html:not(.dark) .enroll-pkg-sub { color: #2a2118; opacity: 0.55; }
+          html:not(.dark) .enroll-pkg-amount { color: #1a1209; }
+          html:not(.dark) .enroll-pkg-period { color: #2a2118; opacity: 0.55; }
           .enroll-pkg-btn {
             width: 100%;
             padding: 11px 16px;
@@ -782,6 +803,9 @@ export default function EnrollPage() {
             color: var(--dark);
             opacity: 0.45;
           }
+          html:not(.dark) .enroll-summary-label { color: #4a3a22; opacity: 0.7; }
+          html:not(.dark) .enroll-summary-price { color: #7a5c1e; }
+          html:not(.dark) .enroll-pkg-popular { color: #7a5c1e; opacity: 1; }
           .enroll-summary-pkg {
             font-family: var(--font-bebas), serif;
             font-size: 18px;
@@ -813,9 +837,9 @@ export default function EnrollPage() {
             gap: 18px;
           }
           html:not(.dark) .enroll-form-card {
-            background: rgba(255,255,255,0.75);
-            border-color: rgba(201,168,76,0.22);
-            box-shadow: 0 4px 24px rgba(0,0,0,0.06);
+            background: #fff;
+            border-color: rgba(0,0,0,0.1);
+            box-shadow: 0 4px 24px rgba(0,0,0,0.07);
           }
 
           .enroll-form-row {
@@ -836,6 +860,10 @@ export default function EnrollPage() {
             color: var(--gold);
             opacity: 0.8;
           }
+          html:not(.dark) .enroll-label {
+            color: #7a5c1e;
+            opacity: 1;
+          }
           .enroll-input {
             background: rgba(255,255,255,0.05);
             border: 1px solid rgba(201,168,76,0.2);
@@ -854,6 +882,7 @@ export default function EnrollPage() {
             border-color: rgba(201,168,76,0.28);
             color: #1a1209;
           }
+          html:not(.dark) .enroll-input::placeholder { color: #4a3a22; opacity: 0.5; }
           .enroll-input:focus {
             border-color: rgba(197,160,89,0.55);
             background: rgba(255,255,255,0.08);

@@ -263,7 +263,7 @@ export default function ContactPage() {
                     {/* Phone */}
                     <div className="contact-field">
                       <label className="contact-label">
-                        Phone <span style={{ opacity: 0.45, fontWeight: 400 }}>(optional)</span>
+                        Phone <span className="contact-optional" style={{ opacity: 0.45, fontWeight: 400 }}>(optional)</span>
                       </label>
                       <input
                         className={`contact-input${errors.phone ? " contact-input--error" : ""}`}
@@ -354,6 +354,7 @@ export default function ContactPage() {
           margin-bottom: 14px;
           animation: contactFadeUp 0.6s ease 0.1s both;
         }
+        html:not(.dark) .contact-eyebrow { color: #7a5c1e; opacity: 1; }
         .contact-title {
           font-family: var(--font-bebas), serif;
           font-size: clamp(52px, 8vw, 110px);
@@ -412,6 +413,7 @@ export default function ContactPage() {
           margin-bottom: 3px;
           opacity: 0.75;
         }
+        html:not(.dark) .contact-detail-label { color: #7a5c1e; opacity: 1; }
         .contact-detail-value {
           display: block;
           font-family: var(--font-dm), sans-serif;
@@ -461,6 +463,7 @@ export default function ContactPage() {
           text-transform: uppercase;
           opacity: 0.8;
         }
+        html:not(.dark) .contact-label { color: #7a5c1e; opacity: 1; }
         .contact-input {
           font-family: var(--font-dm), sans-serif;
           font-size: 14px;
@@ -476,11 +479,14 @@ export default function ContactPage() {
           box-sizing: border-box;
         }
         html:not(.dark) .contact-input {
-          background: rgba(255,255,255,0.7);
-          border-color: rgba(201,168,76,0.2);
+          background: #fff;
+          border-color: rgba(0,0,0,0.12);
           color: #1a1a1a;
+          box-shadow: 0 1px 4px rgba(0,0,0,0.05);
         }
         .contact-input::placeholder { opacity: 0.35; }
+        html:not(.dark) .contact-input::placeholder { color: #4a3a22; opacity: 0.55; }
+        html:not(.dark) .contact-optional { color: #4a3a22; opacity: 0.6; }
         .contact-input:focus {
           border-color: rgba(197, 160, 89, 0.55);
           background: rgba(255,255,255,0.08);

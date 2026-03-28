@@ -8,3 +8,4 @@ export { default as Announcement } from "./Announcement";
 export { default as Trial } from "./Trial";
 export { default as Gallery } from "./Gallery";
 export { default as Coupon } from "./Coupon";
+export { default as Coach } from "./Coach";

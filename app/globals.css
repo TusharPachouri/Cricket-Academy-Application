@@ -823,7 +823,7 @@ html.dark .nav-link { color: #e5e2d8; }
   flex-direction: column;
   align-items: center;
   justify-content: flex-start;
-  padding-top: 8vh;
+  padding-top: max(96px, 11vh);
   padding-bottom: 0;
   z-index: 1;
   text-align: center;
@@ -1108,7 +1108,7 @@ html:not(.dark) .hero-ball-wrap::before {
   }
 
   .hero-title {
-    padding-top: 6vh;
+    padding-top: max(80px, 10vh);
     padding-bottom: 0;
   }
   
@@ -1179,7 +1179,7 @@ html:not(.dark) .hero-ball-wrap::before {
   .hero-content { padding: 0 16px; }
 
   .hero-title {
-    padding-top: 10vh;
+    padding-top: max(80px, 10vh);
     padding-bottom: 0;
   }
   
@@ -1313,7 +1313,7 @@ html:not(.dark) .hero-ball-wrap::before {
    ═══════════════════════════════════════ */
 .bento-section {
   background: #0D1117;
-  padding: 80px 32px;
+  padding: 80px 7%;
   position: relative;
 }
 
@@ -1344,17 +1344,20 @@ html:not(.dark) .hero-ball-wrap::before {
 }
 
 @media (max-width: 768px) {
-  .bento-section { padding: 48px 16px; }
+  .bento-section { padding: 56px 7%; }
   .bento-grid {
     grid-template-columns: repeat(2, 1fr);
     grid-auto-rows: 160px;
+    gap: 12px;
   }
 }
 
 @media (max-width: 420px) {
+  .bento-section { padding: 48px 6%; }
   .bento-grid {
     grid-template-columns: 1fr;
     grid-auto-rows: auto;
+    gap: 12px;
   }
   .bento-2x2, .bento-2x1, .bento-1x2 {
     grid-column: span 1;
@@ -1368,7 +1371,7 @@ html:not(.dark) .hero-ball-wrap::before {
    ═══════════════════════════════════════ */
 .programs-hscroll {
   background: var(--cream);
-  padding: 80px 32px;
+  padding: 80px 7%;
   position: relative;
 }
 
@@ -1442,7 +1445,7 @@ html:not(.dark) .hero-ball-wrap::before {
    ═══════════════════════════════════════ */
 .method-section {
   background: #0D1117;
-  padding: 80px 32px;
+  padding: 80px 7%;
   position: relative;
   min-height: 100vh;
 }
@@ -1522,7 +1525,7 @@ html:not(.dark) .hero-ball-wrap::before {
 }
 
 @media (max-width: 768px) {
-  .method-section { padding: 48px 16px; }
+  .method-section { padding: 48px 6%; }
   .method-inner {
     flex-direction: column;
     gap: 32px;
@@ -1618,14 +1621,14 @@ html:not(.dark) .hero-ball-wrap::before {
   section.w-full.py-24 {
     padding-top: 3rem;
     padding-bottom: 3rem;
-    padding-left: 1rem;
-    padding-right: 1rem;
+    padding-left: 6%;
+    padding-right: 6%;
   }
 
   section.w-full.py-28 {
     padding-top: 3rem;
     padding-bottom: 3rem;
-    padding-left: 1rem;
-    padding-right: 1rem;
+    padding-left: 6%;
+    padding-right: 6%;
   }
 }

@@ -4,6 +4,7 @@ import { useSession, signOut } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import Cursor from "../components/Cursor";
+import Navbar from "../components/Navbar";
 import {
   BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer,
 } from "recharts";
@@ -327,6 +328,9 @@ export default function DashboardPage() {
   ] as const;
 
   return (
+    <>
+    {/* Mobile navbar */}
+    <div className="dash-mobile-nav"><Navbar /></div>
     <div className="dash-root">
       <Cursor />
       {/* Sidebar */}
@@ -364,8 +368,24 @@ export default function DashboardPage() {
             <h1 className="dash-title">{tabs.find(t => t.id === activeTab)?.label}</h1>
             <p className="dash-subtitle">Welcome back, {session.user.name ?? "Admin"}</p>
           </div>
-          <Link href="/" className="dash-view-site">← View Site</Link>
+          <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
+            <Link href="/" className="dash-view-site">← View Site</Link>
+            <button className="dash-signout dash-signout-sm" onClick={() => signOut({ callbackUrl: "/" })}>Sign Out</button>
+          </div>
         </header>
+
+        {/* Mobile tab bar */}
+        <div className="dash-mobile-tabs">
+          {tabs.map(t => (
+            <button
+              key={t.id}
+              className={`dash-mobile-tab${activeTab === t.id ? " dash-mobile-tab--active" : ""}`}
+              onClick={() => setActiveTab(t.id)}
+            >
+              {t.label}
+            </button>
+          ))}
+        </div>
 
         {/* ── OVERVIEW ── */}
         {activeTab === "overview" && stats && (
@@ -775,18 +795,43 @@ export default function DashboardPage() {
         .dash-spinner-sm { width:14px; height:14px; border:2px solid rgba(13,17,23,0.3); border-top-color:#0D1117; border-radius:50%; animation:dash-spin 0.7s linear infinite; }
         @keyframes dash-spin { to { transform:rotate(360deg); } }
 
+        /* Mobile navbar wrapper — only visible on mobile */
+        .dash-mobile-nav { display:none; }
+
+        /* Mobile tab bar */
+        .dash-mobile-tabs { display:none; overflow-x:auto; gap:6px; padding-bottom:2px; }
+        .dash-mobile-tab {
+          flex-shrink:0; padding:8px 16px; border-radius:20px;
+          font-family:var(--font-dm),sans-serif; font-size:13px;
+          background:rgba(255,255,255,0.04); border:1px solid rgba(201,168,76,0.15);
+          color:var(--dark); opacity:0.55; cursor:pointer; transition:all 0.2s;
+        }
+        .dash-mobile-tab--active { background:rgba(201,168,76,0.14); border-color:rgba(201,168,76,0.4); color:var(--gold); opacity:1; font-weight:600; }
+
+        /* Compact sign out for header */
+        .dash-signout-sm { display:none; padding:6px 12px; font-size:11px; }
+
         /* Responsive */
         @media (max-width:900px) {
+          .dash-mobile-nav { display:block; }
+          .dash-mobile-tabs { display:flex; }
+          .dash-signout-sm { display:block; }
           .dash-sidebar { display:none; }
-          .dash-main { padding:18px 14px; }
-          .dash-stats-grid { grid-template-columns:repeat(2,1fr); }
+          .dash-root { padding-top:64px; }
+          .dash-main { padding:16px 16px 32px; }
+          .dash-stats-grid { grid-template-columns:repeat(2,1fr); gap:10px; }
+          .dash-stat-value { font-size:24px; }
+          .dash-header { flex-wrap:wrap; gap:8px; }
         }
         @media (max-width:500px) {
-          .dash-stats-grid { grid-template-columns:1fr 1fr; gap:10px; }
+          .dash-stats-grid { grid-template-columns:1fr 1fr; gap:8px; }
           .dash-modal-grid { grid-template-columns:1fr; }
-          .dash-search { width:140px; }
+          .dash-search { width:120px; }
+          .dash-stat-card { padding:14px 12px; }
+          .dash-view-site { font-size:11px; }
         }
       `}</style>
     </div>
+    </>
   );
 }

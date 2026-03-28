@@ -4,7 +4,43 @@
  * Safe to re-run — skips existing records.
  */
 import { connectDB } from "./mongodb";
-import { Batch } from "./models";
+import { Batch, Coach } from "./models";
+
+const defaultCoaches = [
+  {
+    name: "Rajesh Kumar",
+    slug: "rajesh-kumar",
+    bio: "BCCI Level 2 Certified coach with over 15 years of experience in mentoring state-level players. Specializes in advanced batting techniques and mental conditioning.",
+    certifications: ["BCCI Level 2", "ICC Elite Coach Certified"],
+    playingCareer: "Former Ranji Trophy player for Uttar Pradesh with 50+ matches.",
+    specialization: "Head Coach & Batting Expert",
+    yearsOfExperience: 18,
+    photoUrl: "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?q=80&w=1000&auto=format&fit=crop",
+    displayOrder: 1,
+  },
+  {
+    name: "Amit Sharma",
+    slug: "amit-sharma",
+    bio: "Expert batting consultant focusing on T20 power-hitting and modern game analysis. Helped numerous junior players transition to professional cricket.",
+    certifications: ["BCCI Level 1", "Performance Analyst"],
+    playingCareer: "Played for North Zone in Deodhar Trophy.",
+    specialization: "Senior Batting Consultant",
+    yearsOfExperience: 12,
+    photoUrl: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?q=80&w=1000&auto=format&fit=crop",
+    displayOrder: 2,
+  },
+  {
+    name: "Vikas Yadav",
+    slug: "vikas-yadav",
+    bio: "Pace bowling specialist with a focus on swing and seam movement. Dedicated to developing fast bowlers for the next generation.",
+    certifications: ["BCCI Level 1", "Strength & Conditioning Coach"],
+    playingCareer: "Represented India U-19 and played various A games.",
+    specialization: "Pace Bowling Specialist",
+    yearsOfExperience: 10,
+    photoUrl: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?q=80&w=1000&auto=format&fit=crop",
+    displayOrder: 3,
+  },
+];
 
 const defaultBatches = [
   {
@@ -52,6 +88,16 @@ const defaultBatches = [
 async function seed() {
   await connectDB();
   console.log("Connected to MongoDB");
+
+  for (const coach of defaultCoaches) {
+    const existing = await Coach.findOne({ slug: coach.slug });
+    if (!existing) {
+      await Coach.create(coach);
+      console.log(`✅ Created coach: ${coach.name}`);
+    } else {
+      console.log(`⏭  Skipped coach (already exists): ${coach.name}`);
+    }
+  }
 
   for (const batch of defaultBatches) {
     const existing = await Batch.findOne({ name: batch.name });

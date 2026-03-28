@@ -328,7 +328,7 @@ export default function ProgramsPage() {
 
         /* ── Main tournament card ── */
         .trn-main-wrap {
-          padding: 40px 5% 60px;
+          padding: 48px 7% 72px;
         }
         .trn-main-card {
           border-radius: 24px;
@@ -343,11 +343,11 @@ export default function ProgramsPage() {
 
         /* Banner */
         .trn-main-banner {
-          padding: 36px 40px 28px;
+          padding: 48px 52px 40px;
           display: flex;
           align-items: flex-start;
           justify-content: space-between;
-          gap: 24px;
+          gap: 32px;
           border-bottom: 1px solid rgba(201,168,76,0.1);
           flex-wrap: wrap;
         }
@@ -472,9 +472,9 @@ export default function ProgramsPage() {
         }
         .trn-perk-item {
           display: flex;
-          gap: 14px;
+          gap: 16px;
           align-items: flex-start;
-          padding: 24px 28px;
+          padding: 32px 36px;
           border-right: 1px solid rgba(201,168,76,0.08);
         }
         .trn-perk-item:last-child { border-right: none; }
@@ -501,7 +501,7 @@ export default function ProgramsPage() {
 
         /* Prizes */
         .trn-prizes-section {
-          padding: 32px 40px;
+          padding: 44px 52px;
           border-bottom: 1px solid rgba(201,168,76,0.1);
         }
         .trn-sub-label {
@@ -511,16 +511,16 @@ export default function ProgramsPage() {
           text-transform: uppercase;
           color: var(--gold);
           opacity: 0.7;
-          margin-bottom: 20px;
+          margin-bottom: 24px;
         }
         .trn-prizes-grid {
           display: grid;
           grid-template-columns: repeat(4, 1fr);
-          gap: 12px;
+          gap: 16px;
         }
         .trn-prize-card {
           border-radius: 14px;
-          padding: 20px 18px;
+          padding: 24px 22px;
           background: rgba(201,168,76,0.06);
           border: 1px solid rgba(201,168,76,0.15);
           display: flex;
@@ -551,7 +551,7 @@ export default function ProgramsPage() {
 
         /* How it works */
         .trn-how-section {
-          padding: 32px 40px;
+          padding: 44px 52px;
           border-bottom: 1px solid rgba(201,168,76,0.1);
         }
         .trn-steps-grid {
@@ -560,14 +560,12 @@ export default function ProgramsPage() {
           gap: 0;
         }
         .trn-step-card {
-          padding: 20px 24px 20px 0;
+          padding: 24px 32px 24px 0;
           border-right: 1px solid rgba(201,168,76,0.08);
-          padding-right: 24px;
-          margin-right: 0;
         }
         .trn-step-card:first-child { padding-left: 0; }
         .trn-step-card:last-child { border-right: none; padding-right: 0; }
-        .trn-step-card:not(:first-child) { padding-left: 24px; }
+        .trn-step-card:not(:first-child) { padding-left: 32px; }
         .trn-step-num {
           font-family: var(--font-bebas), serif;
           font-size: 36px;
@@ -597,7 +595,7 @@ export default function ProgramsPage() {
 
         /* Main footer */
         .trn-main-footer {
-          padding: 24px 40px;
+          padding: 32px 52px;
           display: flex;
           align-items: center;
           justify-content: space-between;
@@ -626,7 +624,7 @@ export default function ProgramsPage() {
 
         /* ── Other tournaments ── */
         .trn-others-wrap {
-          padding: 40px 5% 60px;
+          padding: 48px 7% 72px;
         }
         .trn-section-title {
           font-family: var(--font-bebas), serif;
@@ -760,23 +758,28 @@ export default function ProgramsPage() {
         @media (max-width: 1100px) {
           .trn-perks-row { grid-template-columns: repeat(2, 1fr); }
           .trn-prizes-grid { grid-template-columns: repeat(4, 1fr); }
-          .trn-steps-grid { grid-template-columns: repeat(2, 1fr); gap: 20px; }
-          .trn-step-card { border-right: none !important; border-bottom: 1px solid rgba(201,168,76,0.08); padding: 0 0 20px !important; margin-bottom: 4px; }
+          .trn-steps-grid { grid-template-columns: repeat(2, 1fr); gap: 0; }
+          .trn-step-card { border-right: none !important; border-bottom: 1px solid rgba(201,168,76,0.08); padding: 24px 0 !important; }
           .trn-step-card:last-child, .trn-step-card:nth-child(even) { border-bottom: none; }
         }
         @media (max-width: 900px) {
           .trn-others-grid { grid-template-columns: 1fr 1fr; }
           .trn-prizes-grid { grid-template-columns: repeat(2, 1fr); }
+          .trn-main-wrap, .trn-others-wrap { padding-left: 5%; padding-right: 5%; }
+          .trn-main-banner { padding: 36px 32px 28px; }
+          .trn-prizes-section, .trn-how-section { padding: 36px 32px; }
+          .trn-perk-item { padding: 28px 24px; }
+          .trn-main-footer { padding: 28px 32px; }
         }
         @media (max-width: 700px) {
-          .trn-main-banner { padding: 24px 20px; }
+          .trn-main-banner { padding: 28px 24px; }
           .trn-main-banner-right { align-items: flex-start; width: 100%; }
           .trn-perks-row { grid-template-columns: 1fr 1fr; }
-          .trn-perk-item { padding: 16px 16px; border-right: none; border-bottom: 1px solid rgba(201,168,76,0.08); }
-          .trn-prizes-section, .trn-how-section { padding: 24px 20px; }
-          .trn-main-footer { padding: 20px; }
+          .trn-perk-item { padding: 20px 20px; border-right: none; border-bottom: 1px solid rgba(201,168,76,0.08); }
+          .trn-prizes-section, .trn-how-section { padding: 28px 24px; }
+          .trn-main-footer { padding: 24px; }
           .trn-others-grid { grid-template-columns: 1fr; }
-          .trn-others-wrap, .trn-main-wrap { padding: 24px 16px 40px; }
+          .trn-others-wrap, .trn-main-wrap { padding: 28px 16px 48px; }
         }
         @media (max-width: 600px) {
           .trn-header { padding: 96px 16px 36px; }

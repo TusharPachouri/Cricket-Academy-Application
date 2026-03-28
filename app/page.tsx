@@ -10,7 +10,19 @@ import OurMethod from "./components/OurMethod";
 import QuoteDivider from "./components/QuoteDivider";
 import SectionFrame from "./components/SectionFrame";
 
-export default function Home() {
+import { Coach } from "../lib/models";
+import { connectDB } from "../lib/mongodb";
+
+export const dynamic = "force-dynamic";
+
+async function getCoaches() {
+  await connectDB();
+  return await Coach.find().sort({ displayOrder: 1 }).limit(3).lean();
+}
+
+export default async function Home() {
+  const coaches = await getCoaches();
+
   return (
     <>
       <Cursor />
@@ -33,7 +45,7 @@ export default function Home() {
             attribution="Rajesh Kumar · Head Coach"
           />
         </SectionFrame>
-        <SectionFrame><Coaches /></SectionFrame>
+        <SectionFrame><Coaches initialCoaches={JSON.parse(JSON.stringify(coaches))} /></SectionFrame>
         <SectionFrame><Testimonial /></SectionFrame>
         <SectionFrame><CTAFooter /></SectionFrame>
       </main>

@@ -47,7 +47,7 @@ export default function Marquee() {
       <motion.div
         style={{ display: "flex", gap: 0, width: "max-content" }}
         animate={{ x: ["0%", "-50%"] }}
-        transition={{ repeat: Infinity, duration: 28, ease: "linear" }}
+        transition={{ repeat: Infinity, duration: 55, ease: "linear" }}
       >
         {doubled.map((item, i) => (
           <span

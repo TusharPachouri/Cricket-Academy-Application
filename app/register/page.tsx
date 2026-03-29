@@ -1,7 +1,7 @@
 "use client";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { signIn } from "next-auth/react";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { motion } from "framer-motion";
 import Link from "next/link";
 import Cursor from "../components/Cursor";
@@ -22,12 +22,23 @@ function validate(f: FormData): FormErrors {
 
 export default function RegisterPage() {
   const router = useRouter();
+  const searchParams = useSearchParams();
   const [form, setForm] = useState<FormData>({ firstName: "", lastName: "", email: "", phone: "", password: "", confirm: "" });
   const [errors, setErrors] = useState<FormErrors>({});
   const [touched, setTouched] = useState<Partial<Record<keyof FormData, boolean>>>({});
   const [loading, setLoading] = useState(false);
   const [googleLoading, setGoogleLoading] = useState(false);
   const [generalError, setGeneralError] = useState("");
+  const [infoMsg, setInfoMsg] = useState("");
+
+  useEffect(() => {
+    const msg = searchParams.get("msg");
+    const emailParam = searchParams.get("email");
+    if (msg === "no-account") {
+      setInfoMsg(`No account found for ${emailParam ?? "that email"}. Please create one below.`);
+      if (emailParam) setForm(f => ({ ...f, email: emailParam }));
+    }
+  }, [searchParams]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -111,6 +122,7 @@ export default function RegisterPage() {
         <div className="auth-divider"><span>or register with email</span></div>
 
         <form onSubmit={handleSubmit} className="auth-form">
+          {infoMsg && <p className="auth-info-banner">{infoMsg}</p>}
           {generalError && <p className="auth-error-banner">{generalError}</p>}
 
           <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 14 }}>
@@ -179,6 +191,7 @@ export default function RegisterPage() {
         html:not(.dark) .auth-divider span { background:#ffffff; color:#1a1209; }
         .auth-form { display:flex; flex-direction:column; gap:14px; }
         .auth-error-banner { background:rgba(224,92,92,0.1); border:1px solid rgba(224,92,92,0.3); border-radius:10px; padding:10px 14px; font-family:var(--font-dm),sans-serif; font-size:13px; color:#e05c5c; margin:0; }
+        .auth-info-banner { background:rgba(197,160,89,0.1); border:1px solid rgba(197,160,89,0.35); border-radius:10px; padding:10px 14px; font-family:var(--font-dm),sans-serif; font-size:13px; color:#C5A059; margin:0; }
         .auth-field { display:flex; flex-direction:column; gap:6px; }
         .auth-label { font-family:var(--font-dm),sans-serif; font-size:10px; letter-spacing:0.16em; text-transform:uppercase; color:var(--gold); opacity:0.8; }
         .auth-input { background:rgba(255,255,255,0.07); border:1px solid rgba(201,168,76,0.35); border-radius:10px; padding:10px 13px; font-family:var(--font-dm),sans-serif; font-size:13px; color:#F2EFE4; outline:none; transition:border-color 0.2s; width:100%; box-sizing:border-box; }

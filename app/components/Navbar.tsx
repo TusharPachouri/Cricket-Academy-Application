@@ -87,7 +87,7 @@ export default function Navbar({ isDark: propIsDark, setIsDark: propSetIsDark }:
     { name: "Home", href: "/" },
     { name: "Programs", href: "/programs" },
     { name: "Coaches", href: "/coaches" },
-    { name: "About", href: "/#about" },
+    { name: "About", href: "/about" },
     { name: "Contact", href: "/contact" },
   ];
 

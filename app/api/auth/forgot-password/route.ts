@@ -24,8 +24,13 @@ export async function POST(req: NextRequest) {
     await connectDB();
     const user = await User.findOne({ email: email.toLowerCase().trim() });
 
-    // Always return success to prevent email enumeration
-    if (!user) return NextResponse.json({ success: true });
+    // No account found — tell frontend to redirect to signup
+    if (!user) {
+      return NextResponse.json(
+        { error: "No account found with this email.", signup: true },
+        { status: 404 }
+      );
+    }
 
     // Delete any existing OTPs for this email
     await PasswordReset.deleteMany({ email: email.toLowerCase() });
@@ -36,11 +41,10 @@ export async function POST(req: NextRequest) {
 
     await PasswordReset.create({ email: email.toLowerCase(), otp, expiresAt });
 
-    const { data, error } = await resend.emails.send({
+    const { error } = await resend.emails.send({
       from: "Braj Cricket Academy <onboarding@resend.dev>",
-      to: [process.env.CONTACT_RECEIVER_EMAIL ?? "brajcricketacademy@gmail.com"],
-      replyTo: email,
-      subject: `Password Reset OTP for ${email} — Braj Cricket Academy`,
+      to: [email],
+      subject: `Your Password Reset OTP — Braj Cricket Academy`,
       html: `
         <div style="font-family:sans-serif;max-width:480px;margin:0 auto;">
           <div style="background:linear-gradient(135deg,#C5A059,#8B6914);padding:28px 32px;border-radius:12px 12px 0 0;">
@@ -68,7 +72,7 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: "Failed to send OTP. Please try again." }, { status: 500 });
     }
 
-    console.log("OTP email sent, id:", data?.id);
+    console.log("OTP email sent to:", email);
     return NextResponse.json({ success: true });
   } catch (err) {
     console.error("Forgot password error:", err);

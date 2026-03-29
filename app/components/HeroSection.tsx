@@ -9,11 +9,18 @@ import Navbar from "./Navbar";
 
 export default function HeroSection() {
   const [isDark, setIsDark] = useState(true);
+  const [dropReady, setDropReady] = useState(false);
 
   // Sync with persisted theme on mount
   useEffect(() => {
     const saved = localStorage.getItem("braj-theme");
     if (saved !== null) setIsDark(saved === "dark");
+  }, []);
+
+  // Trigger drop animation only after client hydration (so dynamic import has time to resolve)
+  useEffect(() => {
+    const t = setTimeout(() => setDropReady(true), 80);
+    return () => clearTimeout(t);
   }, []);
 
   // Scroll animation: ball moves down and fades out
@@ -59,10 +66,10 @@ export default function HeroSection() {
         {/* Outer: entry bounce (transforms visual position only, CSS layout unaffected) */}
         <motion.div
           initial={{ y: -480, opacity: 0 }}
-          animate={{ y: 0, opacity: 1 }}
+          animate={dropReady ? { y: 0, opacity: 1 } : { y: -480, opacity: 0 }}
           transition={{
-            y: { type: "spring", stiffness: 32, damping: 8, mass: 2.2, delay: 0.15 },
-            opacity: { duration: 0.25, ease: "easeOut", delay: 0.15 },
+            y: { type: "spring", stiffness: 32, damping: 8, mass: 2.2, delay: 0.1 },
+            opacity: { duration: 0.2, ease: "easeOut", delay: 0.1 },
           }}
           style={{ position: "absolute", inset: 0, pointerEvents: "none", zIndex: 3 }}
         >

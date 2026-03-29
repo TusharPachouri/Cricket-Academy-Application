@@ -49,8 +49,16 @@ export default function ForgotPasswordPage() {
       method: "POST", headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ email }),
     });
+    const d = await res.json();
     setLoading(false);
-    if (!res.ok) { const d = await res.json(); setError(d.error); return; }
+    if (!res.ok) {
+      if (d.signup) {
+        router.push("/register?msg=no-account&email=" + encodeURIComponent(email));
+        return;
+      }
+      setError(d.error);
+      return;
+    }
     setOtp("");
     setStep("otp");
   };
@@ -62,8 +70,16 @@ export default function ForgotPasswordPage() {
       method: "POST", headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ email }),
     });
+    const d = await res.json();
     setLoading(false);
-    if (!res.ok) { const d = await res.json(); setError(d.error); return; }
+    if (!res.ok) {
+      if (d.signup) {
+        router.push("/register?msg=no-account&email=" + encodeURIComponent(email));
+        return;
+      }
+      setError(d.error);
+      return;
+    }
     setOtp("");
     setStep("email");
     setTimeout(() => setStep("otp"), 0);

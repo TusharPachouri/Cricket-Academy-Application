@@ -1,5 +1,5 @@
 "use client";
-import { useState, useEffect } from "react";
+import { useState, useEffect, Suspense } from "react";
 import { signIn } from "next-auth/react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { motion } from "framer-motion";
@@ -20,9 +20,18 @@ function validate(f: FormData): FormErrors {
   return e;
 }
 
+function SearchParamsReader({ onRead }: { onRead: (msg: string, email: string) => void }) {
+  const searchParams = useSearchParams();
+  useEffect(() => {
+    const msg = searchParams.get("msg") ?? "";
+    const email = searchParams.get("email") ?? "";
+    if (msg) onRead(msg, email);
+  }, [searchParams, onRead]);
+  return null;
+}
+
 export default function RegisterPage() {
   const router = useRouter();
-  const searchParams = useSearchParams();
   const [form, setForm] = useState<FormData>({ firstName: "", lastName: "", email: "", phone: "", password: "", confirm: "" });
   const [errors, setErrors] = useState<FormErrors>({});
   const [touched, setTouched] = useState<Partial<Record<keyof FormData, boolean>>>({});
@@ -31,14 +40,12 @@ export default function RegisterPage() {
   const [generalError, setGeneralError] = useState("");
   const [infoMsg, setInfoMsg] = useState("");
 
-  useEffect(() => {
-    const msg = searchParams.get("msg");
-    const emailParam = searchParams.get("email");
+  const handleSearchParams = (msg: string, email: string) => {
     if (msg === "no-account") {
-      setInfoMsg(`No account found for ${emailParam ?? "that email"}. Please create one below.`);
-      if (emailParam) setForm(f => ({ ...f, email: emailParam }));
+      setInfoMsg(`No account found for ${email || "that email"}. Please create one below.`);
+      if (email) setForm(f => ({ ...f, email }));
     }
-  }, [searchParams]);
+  };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -87,6 +94,9 @@ export default function RegisterPage() {
 
   return (
     <div className="auth-page">
+      <Suspense fallback={null}>
+        <SearchParamsReader onRead={handleSearchParams} />
+      </Suspense>
       <Cursor />
       <div className="auth-card" style={{ maxWidth: 480 }}>
         <Link href="/" className="auth-logo">
